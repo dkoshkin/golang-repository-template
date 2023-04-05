@@ -3,5 +3,5 @@
 
 .PHONY: actionlint
 actionlint: ## Runs actionlint to lint Github Actions
-actionlint: install-tool.go.actionlint; $(info $(M) running pre-commit)
+actionlint: install-tool.go.actionlint; $(info $(M) running actionlint)
 	actionlint
