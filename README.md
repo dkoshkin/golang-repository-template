@@ -7,22 +7,45 @@
 
 Replace `<PROJECT_NAME>` with the name of the project.
 
-## Dev Instructions
+## Prerequisites
 
--   Built it, the binary for your OS will be placed in `./dist`, e.g. `./dist/<PROJECT_NAME>_darwin_arm64/<PROJECT_NAME>`:
+...
 
-    ```shell
-    make build-snapshot
-    ```
+## Usage Instructions
 
--   Test it:
+...
 
-    ```shell
-    make test
-    ```
+## Setup your Dev Environment
 
--   Lint it:
+- Install [asdf](https://github.com/asdf-community/asdf-direnv)
+- Install [asdf-direnv](https://github.com/asdf-community/asdf-direnv#setup)
+- Add a global `direnv` version with: `asdf global direnv latest`
+- Install all tools with: `make install-tools`
 
-    ```shell
-    make lint
-    ```
+Tip: to see all available make targets with descriptions, simply run `make`.
+
+### Lint
+
+```bash
+make lint
+```
+
+### Test
+
+```bash
+make tst
+```
+
+### Build
+
+The binary for your OS will be placed in `./dist`, e.g. `./dist/<PROJECT_NAME>_darwin_arm64/<PROJECT_NAME>`:
+
+```bash
+make build-snapshot
+```
+
+### Pre-commit
+
+```bash
+make pre-commit
+```
