@@ -17,7 +17,7 @@ Replace `<PROJECT_NAME>` with the name of the project.
 
 ## Setup your Dev Environment
 
-- Install [asdf](https://github.com/asdf-community/asdf-direnv)
+- Install [asdf](https://asdf-vm.com/)
 - Install [asdf-direnv](https://github.com/asdf-community/asdf-direnv#setup)
 - Add a global `direnv` version with: `asdf global direnv latest`
 - Install all tools with: `make install-tools`
@@ -33,7 +33,7 @@ make lint
 ### Test
 
 ```bash
-make tst
+make test
 ```
 
 ### Build
