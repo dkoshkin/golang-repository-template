@@ -3,9 +3,9 @@
  SPDX-License-Identifier: Apache-2.0
  -->
 
-# <PROJECT_NAME>
+# Project Template
 
-Replace `<PROJECT_NAME>` with the name of the project.
+Replace `seed` with the name of the project.
 
 ## Prerequisites
 
@@ -38,7 +38,7 @@ make test
 
 ### Build
 
-The binary for your OS will be placed in `./dist`, e.g. `./dist/<PROJECT_NAME>_darwin_arm64/<PROJECT_NAME>`:
+The binary for your OS will be placed in `./dist`, e.g. `./dist/seed_darwin_arm64/seed`:
 
 ```bash
 make build-snapshot
