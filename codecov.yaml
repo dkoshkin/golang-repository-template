@@ -1,0 +1,17 @@
+# Copyright 2025 Dimitri Koshkin. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+codecov:
+  require_ci_to_pass: true
+
+ignore:
+  # ignore all generated controller-gen and conversion-gen code
+
+coverage:
+  precision: 2
+  round: down
+  range: 75..100
+  status:
+    patch:
+      default:
+        target: 75%
