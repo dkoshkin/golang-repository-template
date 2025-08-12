@@ -1,0 +1,95 @@
+# Copyright 2025 Dimitri Koshkin. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+version: 2
+
+project_name: golang-repository-template
+
+changelog:
+  use: github
+  groups:
+    - title: Features
+      regexp: "^.*feat[(\\w)]*:+.*$"
+      order: 0
+    - title: 'Bug fixes'
+      regexp: "^.*fix[(\\w)]*:+.*$"
+      order: 1
+  filters:
+    exclude:
+      - '^docs:'
+      - '^chore:'
+      - '^build:'
+
+release:
+  footer: |
+    ### Summary
+    **Full Changelog**: https://github.com/dkoshkin/{{.ProjectName}}/compare/{{ .PreviousTag }}...{{ .Tag }}
+  extra_files: []
+
+builds:
+  - id: golang-repository-template
+    dir: ./cmd/golang-repository-template
+    env:
+      - CGO_ENABLED=0
+    flags:
+      - -trimpath
+    ldflags:
+      - -X 'k8s.io/component-base/version.buildDate={{ .CommitDate }}'
+      - -X 'k8s.io/component-base/version.gitCommit={{ .FullCommit }}'
+      - -X 'k8s.io/component-base/version.gitTreeState={{ .Env.GIT_TREE_STATE }}'
+      - -X 'k8s.io/component-base/version.gitVersion=v{{ trimprefix .Version "v" }}'
+      - -X 'k8s.io/component-base/version.major={{ .Major }}'
+      - -X 'k8s.io/component-base/version.minor={{ .Minor }}'
+      - -X 'k8s.io/component-base/version/verflag.programName={{ .ProjectName }}'
+    goos:
+      - linux
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    mod_timestamp: '{{ .CommitTimestamp }}'
+    hooks:
+      post:
+        - |
+          sh -ec 'if [ {{ .IsSnapshot }} == true ] && [ {{ .Runtime.Goarch }} == {{ .Arch }} ]; then
+            env SOURCE_DATE_EPOCH=$(date +%s) \
+                KO_DATA_DATE_EPOCH=$(date +%s) \
+                KO_DOCKER_REPO=ko.local/{{ .ProjectName }} \
+                ko build \
+                  --bare \
+                  --platform linux/{{ .Arch }} \
+                  -t v{{ trimprefix .Version "v" }}-{{ .Arch }} \
+                  ./cmd/golang-repository-template
+          fi'
+
+archives:
+  - name_template: '{{ .ProjectName }}_v{{ trimprefix .Version "v" }}_{{ .Os }}_{{ .Arch }}'
+    ids:
+      - golang-repository-template
+
+kos:
+  - id: golang-repository-template
+    build: golang-repository-template
+    labels:
+      org.opencontainers.image.created: "{{ .CommitDate }}"
+      org.opencontainers.image.title: "{{ .ProjectName }}"
+      org.opencontainers.image.revision: "{{ .FullCommit }}"
+      org.opencontainers.image.version: 'v{{ trimprefix .Version "v" }}'
+      org.opencontainers.image.source: "{{ .GitURL }}"
+    platforms:
+      - linux/amd64
+      - linux/arm64
+    repositories:
+      - ghcr.io/dkoshkin/golang-repository-template
+    bare: true
+    creation_time: "{{.CommitTimestamp}}"
+    ko_data_creation_time: "{{.CommitTimestamp}}"
+    tags:
+      - 'v{{ trimprefix .Version "v" }}'
+
+checksum:
+  name_template: 'checksums.txt'
+
+snapshot:
+  version_template: "{{ incminor .Tag }}-dev"

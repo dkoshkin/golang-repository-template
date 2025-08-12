@@ -1,4 +1,4 @@
-# Copyright 2023 Dimitri Koshkin. All rights reserved.
+# Copyright 2025 Dimitri Koshkin. All rights reserved.
 # SPDX-License-Identifier: Apache-2.0
 
 .DEFAULT_GOAL := help

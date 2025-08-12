@@ -1,7 +1,7 @@
-# Copyright 2023 Dimitri Koshkin. All rights reserved.
+# Copyright 2025 Dimitri Koshkin. All rights reserved.
 # SPDX-License-Identifier: Apache-2.0
 
-name: stacked-prs
+name: Stacked PRs
 
 permissions:
   actions: write
@@ -11,12 +11,15 @@ permissions:
   statuses: write
 
 on:
-  pull_request_target:
+  pull_request:
     types: [opened, edited, reopened, synchronize]
+  merge_group:
+    types:
+      - checks_requested
 
 jobs:
   check:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: z0al/dependent-issues@v1
         env:
