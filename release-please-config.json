@@ -1,0 +1,16 @@
+{
+  "packages": {
+    ".": {
+      "release-type": "go",
+      "pull-request-title-pattern": "release${scope}: ${component} v${version}",
+      "changelog-type": "github",
+      "extra-files": [
+        {
+          "type": "toml",
+          "path": "docs/hugo.toml",
+          "jsonpath": "$.params.version"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,74 @@
+# Copyright 2025 Dimitri Koshkin. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+name: Update Devbox Dependencies
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * 1"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  devbox-update:
+    if: github.ref_type == 'branch'
+    runs-on: ubuntu-24.04
+    env:
+      DESTINATION_BRANCH: scheduled-devbox-update-${{ github.ref_name }}
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Install devbox
+        uses: jetify-com/devbox-install-action@v0.13.0
+        with:
+          enable-cache: true
+
+      - name: Run devbox update
+        run: devbox update
+
+      - name: Get number of versions changed
+        id: devbox-versions-changed
+        run: |
+          echo "number_changed=$(git diff --unified=0 devbox.lock | grep -c \"version\":)" >>"${GITHUB_OUTPUT}"
+
+      - name: Commit changes
+        if: steps.devbox-versions-changed.outputs.number_changed > 0
+        id: commit-changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FILE_TO_COMMIT: devbox.lock
+        run: |
+          git push origin ":${DESTINATION_BRANCH}" || true
+          git branch "${DESTINATION_BRANCH}"
+          git push origin "${DESTINATION_BRANCH}"
+
+          TODAY="$( date -u '+%Y-%m-%d' )"
+          MESSAGE="build(${{ github.ref_name }}): Latest devbox update (${TODAY})"
+          SHA=$( git rev-parse "${DESTINATION_BRANCH}":"${FILE_TO_COMMIT}" )
+          gh api --method PUT "/repos/:owner/:repo/contents/${FILE_TO_COMMIT}" \
+            --field message="${MESSAGE}" \
+            --field content=@<( base64 -i "${FILE_TO_COMMIT}" ) \
+            --field encoding="base64" \
+            --field branch="${DESTINATION_BRANCH}" \
+            --field sha="${SHA}"
+
+          echo "message=${MESSAGE}" >>"${GITHUB_OUTPUT}"
+
+      - name: Create PR
+        if: steps.devbox-versions-changed.outputs.number_changed > 0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          pr_url="$(gh pr create --base "${{ github.ref_name }}" --head "${DESTINATION_BRANCH}" \
+            --title "${{ steps.commit-changes.outputs.message }}" \
+            --body "This PR was automatically created by the scheduled devbox update workflow." \
+            --label ignore-for-release)"
+          gh pr merge --auto --squash "${pr_url}"

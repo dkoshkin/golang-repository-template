@@ -1,105 +1,72 @@
-# Copyright 2023 Dimitri Koshkin. All rights reserved.
+# Copyright 2025 Dimitri Koshkin. All rights reserved.
 # SPDX-License-Identifier: Apache-2.0
 
+version: "2"
 run:
-  timeout: 5m
-  go: '1.17'
-
+  build-tags:
+    - e2e
 linters:
-  disable-all: true
+  default: none
   enable:
-    - asciicheck
-    - bodyclose
     - containedctx
     - contextcheck
     - depguard
-    - dogsled
-    - dupl
     - errcheck
     - errchkjson
     - errname
-    - exhaustive
-    - exportloopref
-    - funlen
-    - gochecknoglobals
     - gochecknoinits
-    - gci
     - goconst
     - gocritic
     - gocyclo
     - godot
-    - goerr113
-    - gofmt
-    - gofumpt
-    - goimports
-    - gomnd
-    - goprintffuncname
     - gosec
-    - gosimple
     - govet
+    - importas
     - ineffassign
     - lll
-    - makezero
     - misspell
-    - nakedret
-    - nestif
-    - noctx
     - nolintlint
     - prealloc
-    - predeclared
-    - revive
     - staticcheck
-    - stylecheck
-    - tenv
+    - testifylint
     - thelper
     - tparallel
-    - typecheck
     - unconvert
     - unparam
     - unused
+    - usetesting
     - whitespace
-    - wrapcheck
-
-linters-settings:
-  depguard:
-    list-type: blacklist
-    packages:
-      - k8s.io/kubernetes
-    packages-with-error-messages:
-      k8s.io/kubernetes: "do not use k8s.io/kubernetes directly"
-  errcheck:
-    exclude-functions:
-      - encoding/json.Marshal
-      - encoding/json.MarshalIndent
-  errchkjson:
-    check-error-free-encoding: true
-  gci:
-    sections:
-      - Standard
-      - Default
-      - Prefix(github.com/dkoshkin)
-      - Prefix(github.com/dkoshkin/seed)
-  gocritic:
-    enabled-tags:
-      - diagnostic
-      - experimental
-      - opinionated
-      - performance
-      - style
-  gofumpt:
-    lang-version: "1.17"
-    extra-rules: true
-  lll:
-    line-length: 120
-
-issues:
-  exclude-rules:
-    # ignore errcheck for code under a /test folder
-    - path: "test/*"
-      linters:
-        - errcheck
-    # ignore errcheck for flags.Parse (it is expected that we flag.ExitOnError)
-    # ignore response.WriteError as it always returns the err it was passed
-    - source: "flags.Parse|response.WriteError"
-      linters:
-        - errcheck
+  settings:
+    errchkjson:
+      check-error-free-encoding: true
+    gocritic:
+      enabled-tags:
+        - diagnostic
+        - experimental
+        - opinionated
+        - performance
+        - style
+    lll:
+      line-length: 120
+    staticcheck:
+      dot-import-whitelist:
+        - github.com/onsi/ginkgo/v2
+        - github.com/onsi/gomega
+    testifylint:
+      enable-all: true
+formatters:
+  enable:
+    - gci
+    - gofumpt
+    - golines
+  settings:
+    gci:
+      sections:
+        - Standard
+        - Default
+        - Prefix(github.com/dkoshkin)
+        - Prefix(github.com/dkoshkin/golang-repository-template)
+    gofumpt:
+      extra-rules: true
+    golines:
+      max-len: 120
