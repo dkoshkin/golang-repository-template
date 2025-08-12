@@ -1,7 +1,7 @@
 # Copyright 2025 Dimitri Koshkin. All rights reserved.
 # SPDX-License-Identifier: Apache-2.0
 
-name: Conventional PR Title
+name: conventional-pr-title
 
 on:
   pull_request:
