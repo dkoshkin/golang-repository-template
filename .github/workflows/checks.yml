@@ -1,7 +1,7 @@
 # Copyright 2025 Dimitri Koshkin. All rights reserved.
 # SPDX-License-Identifier: Apache-2.0
 
-name: Checks
+name: checks
 
 on:
   pull_request:

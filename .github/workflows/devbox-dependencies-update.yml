@@ -1,7 +1,7 @@
 # Copyright 2025 Dimitri Koshkin. All rights reserved.
 # SPDX-License-Identifier: Apache-2.0
 
-name: Update Devbox Dependencies
+name: devbox-dependencies-update
 
 on:
   workflow_dispatch:

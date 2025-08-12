@@ -1,7 +1,7 @@
 # Copyright 2025 Dimitri Koshkin. All rights reserved.
 # SPDX-License-Identifier: Apache-2.0
 
-name: Release Please
+name: release-please
 
 on:
   push:
@@ -35,5 +35,5 @@ jobs:
         name: Run release workflow
         uses: benc-uk/workflow-dispatch@v1
         with:
-          workflow: release-tag.yml
+          workflow: release.yml
           ref: ${{ steps.release-please.outputs.tag_name }}
