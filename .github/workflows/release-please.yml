@@ -28,11 +28,12 @@ jobs:
         with:
           target-branch: ${{ github.ref_name }}
 
-      - uses: actions/checkout@v5
+      - name: Check out code
         if: ${{ steps.release-please.outputs.release_created }}
+        uses: actions/checkout@v5
 
-      - if: ${{ steps.release-please.outputs.release_created }}
-        name: Run release workflow
+      - name: Run release workflow
+        if: ${{ steps.release-please.outputs.release_created }}
         uses: benc-uk/workflow-dispatch@v1
         with:
           workflow: release.yml
