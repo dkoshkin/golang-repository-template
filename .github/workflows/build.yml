@@ -18,7 +18,7 @@ defaults:
     shell: bash
 
 jobs:
-  unit-test:
+  build:
     runs-on: ubuntu-24.04
     steps:
       - name: Check out code
