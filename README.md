@@ -5,6 +5,9 @@
 
 # Project Template
 
+[![build](https://github.com/dkoshkin/golang-repository-template/actions/workflows/build.yml/badge.svg)](https://github.com/dkoshkin/golang-repository-template/actions/workflows/build.yml)
+[![codecov](https://codecov.io/github/dkoshkin/golang-repository-template/graph/badge.svg?token=RUEME4RFZK)](https://codecov.io/github/dkoshkin/golang-repository-template)
+
 This is a template for creating new Golang projects.
 It includes a Makefile with common targets, a pre-configured development environment,
 Github Actions and a basic structure for your project.
