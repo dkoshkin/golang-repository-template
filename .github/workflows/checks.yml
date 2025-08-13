@@ -22,6 +22,14 @@ defaults:
     shell: bash
 
 jobs:
+  build:
+    name: build
+    uses: ./.github/workflows/build.yml
+    secrets: inherit
+    permissions:
+      contents: read
+      checks: write
+
   unit-test:
     name: unit-test
     uses: ./.github/workflows/unit-tests.yml
@@ -37,6 +45,7 @@ jobs:
       - "lint-test-helm"
       - "pre-commit"
       - "unit-test"
+      - "build"
     strategy:
       fail-fast: false
     name: e2e
