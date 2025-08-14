@@ -16,7 +16,13 @@ defaults:
 jobs:
   backport:
     runs-on: ubuntu-24.04
-    if: github.event.pull_request.merged == true && !(contains(github.event.pull_request.labels.*.name, 'backport'))
+    if: |
+      github.event.pull_request.merged == true
+      && contains(github.event.pull_request.labels.*.name, 'auto-backport')
+      && (
+        (github.event.action == 'labeled' && github.event.label.name == 'auto-backport')
+        || (github.event.action == 'closed')
+      )
     steps:
       - name: Backport
         uses: sorenlouv/backport-github-action@v9.5.1
