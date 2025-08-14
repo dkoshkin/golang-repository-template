@@ -1,7 +1,7 @@
 # Copyright 2025 Dimitri Koshkin. All rights reserved.
 # SPDX-License-Identifier: Apache-2.0
 
-name: publish-docs
+name: docs
 
 on:
   push:
@@ -30,7 +30,7 @@ jobs:
   build:
     runs-on: ubuntu-24.04
     steps:
-      - name: Checkout
+      - name: Check out code
         uses: actions/checkout@v5
 
       - name: Install devbox
@@ -76,7 +76,7 @@ jobs:
         with:
           path: ./docs/public
 
-  deploy:
+  publish:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

@@ -1,0 +1,127 @@
+# Copyright 2025 Dimitri Koshkin. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+name: lint
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  go:
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        module: [.]
+      fail-fast: false
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v5
+
+      - name: Install devbox
+        uses: jetify-com/devbox-install-action@v0.13.0
+        with:
+          enable-cache: true
+
+      - name: Export golang and golangci-lint versions
+        id: versions
+        run: |
+          echo "golangci-lint=$(devbox run -- golangci-lint version --short)" >>"${GITHUB_OUTPUT}"
+          echo "golang=$(devbox run -- go version | grep -o "[[:digit:]]\+.[[:digit:]]\+\(.[[:digit:]]\+\)\?")" >>"${GITHUB_OUTPUT}"
+
+      - name: golangci-lint
+        uses: reviewdog/action-golangci-lint@v2
+        with:
+          fail_level: error
+          reporter: github-pr-review
+          golangci_lint_version: v${{ steps.versions.outputs.golangci-lint }}
+          go_version: v${{ steps.versions.outputs.golang }}
+          workdir: ${{ matrix.module }}
+          golangci_lint_flags: "--config=${{ github.workspace }}/.golangci.yml"
+
+  gha:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v5
+
+      - name: actionlint
+        uses: reviewdog/action-actionlint@v1
+        with:
+          fail_level: error
+          reporter: github-pr-review
+
+  helm:
+    runs-on: ubuntu-24.04
+    env:
+      KIND_CLUSTER_NAME: chart-testing
+      KIND_KUBECONFIG: ct-kind-kubeconfig
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Install devbox
+        uses: jetify-com/devbox-install-action@v0.13.0
+        with:
+          enable-cache: true
+
+      - name: Run chart-testing (list-changed)
+        id: list-changed
+        run: |
+          changed="$(devbox run -- \
+            ct list-changed --config charts/ct-config.yaml \
+          )"
+          if [[ -n "$changed" ]]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - if: steps.list-changed.outputs.changed == 'true'
+        name: Run chart-testing (lint)
+        run: |
+          devbox run -- \
+            ct lint --config charts/ct-config.yaml
+
+      - if: steps.list-changed.outputs.changed == 'true'
+        name: Create kind cluster
+        run: devbox run -- make kind.create
+
+      - if: steps.list-changed.outputs.changed == 'true'
+        name: Build Docker images
+        run: devbox run -- make release-snapshot
+
+      - if: steps.list-changed.outputs.changed == 'true'
+        name: Export image tag
+        id: export-image-tag
+        run: echo test-image-tag="$(devbox run -- gojq -r .version dist/metadata.json)-$(devbox run -- go env GOARCH)" >> "$GITHUB_OUTPUT"
+
+      - if: steps.list-changed.outputs.changed == 'true'
+        name: Sideload docker image
+        run: |
+          devbox run -- \
+            kind load docker-image \
+              --name "${KIND_CLUSTER_NAME}" \
+              "ko.local/golang-repository-template:${{ steps.export-image-tag.outputs.test-image-tag }}"
+
+      - if: steps.list-changed.outputs.changed == 'true'
+        name: Run chart-testing (install)
+        run: |
+          devbox run -- \
+            ct install \
+              --config charts/ct-config.yaml \
+              --helm-extra-set-args "--set-string image.repository=ko.local/golang-repository-template --set-string image.tag=${{ steps.export-image-tag.outputs.test-image-tag }} --set-string helmRepository.images.bundleInitializer.tag=${{ steps.export-image-tag.outputs.test-image-tag }}"
+        env:
+          KUBECONFIG: ${{ env.KIND_KUBECONFIG }}
+
+      - if: steps.list-changed.outputs.changed == 'true' && always()
+        name: Delete chart-testing KinD cluster
+        run: |
+          devbox run -- make kind.delete
