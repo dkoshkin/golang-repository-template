@@ -62,7 +62,7 @@ jobs:
 
       - name: Publish e2e test report
         if: always()
-        uses: mikepenz/action-junit-report@v5
+        uses: mikepenz/action-junit-report@v6
         with:
           report_paths: 'junit-e2e.xml'
           check_name: 'e2e test report'
