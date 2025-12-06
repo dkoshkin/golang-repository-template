@@ -44,7 +44,7 @@ jobs:
           golangci_lint_version: v${{ steps.versions.outputs.golangci-lint }}
           go_version: v${{ steps.versions.outputs.golang }}
           workdir: ${{ matrix.module }}
-          golangci_lint_flags: "--config=${{ github.workspace }}/.golangci.yml"
+          golangci_lint_flags: "--config=${{ github.workspace }}/.golangci.yaml"
 
   gha:
     runs-on: ubuntu-24.04

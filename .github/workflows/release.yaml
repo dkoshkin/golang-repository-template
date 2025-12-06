@@ -68,5 +68,5 @@ jobs:
       - name: Build GitHub pages
         uses: benc-uk/workflow-dispatch@v1
         with:
-          workflow: github-pages.yml
+          workflow: github-pages.yaml
           ref: main
