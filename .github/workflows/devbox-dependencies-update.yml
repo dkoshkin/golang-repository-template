@@ -4,6 +4,7 @@
 name: devbox-dependencies-update
 
 on:
+  workflow_call:
   workflow_dispatch:
   schedule:
     - cron: "0 0 * * 1"
