@@ -3,6 +3,6 @@
 
 module github.com/dkoshkin/golang-repository-template/docs
 
-go 1.24
+go 1.20
 
-require github.com/google/docsy v0.11.0 // indirect
+require github.com/google/docsy v0.13.0 // indirect
