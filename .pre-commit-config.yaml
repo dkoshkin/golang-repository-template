@@ -116,7 +116,7 @@ repos:
     exclude: ^(api/external/|internal/test)
     args:
       - --license-filepath
-      - hack/license-header.txt
+      - hack/license/license.txt
       - --comment-style
       - //
       - --allow-past-years
@@ -127,7 +127,7 @@ repos:
     exclude: ^(internal/test|examples|docs/static/helm/index\.yaml|)$
     args:
       - --license-filepath
-      - hack/license-header.txt
+      - hack/license/license.txt
       - --allow-past-years
   - id: insert-license
     name: License headers - Markdown
@@ -136,7 +136,7 @@ repos:
     exclude: ^(charts/golang-repository-template/README.md|CHANGELOG.md$|docs/|.github/pull_request_template.md$)
     args:
       - --license-filepath
-      - hack/license-header.txt
+      - hack/license/license.txt
       - --comment-style
       - <!--|| -->
       - --allow-past-years
