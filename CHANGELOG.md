@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.2 (2025-12-06)
+
+<!-- Release notes generated using configuration in .github/release.yaml at main -->
+
+## What's Changed
+### Other Changes
+* build: fix update devbox packages by @dkoshkin in https://github.com/dkoshkin/golang-repository-template/pull/25
+
+
+**Full Changelog**: https://github.com/dkoshkin/golang-repository-template/compare/v0.1.1...v0.1.2
+
 ## 0.1.1 (2025-08-14)
 
 <!-- Release notes generated using configuration in .github/release.yaml at main -->
