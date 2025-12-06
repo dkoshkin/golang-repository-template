@@ -3,4 +3,4 @@
 
 module github.com/dkoshkin/golang-repository-template
 
-go 1.24
+go 1.25
