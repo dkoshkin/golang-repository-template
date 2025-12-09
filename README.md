@@ -5,7 +5,7 @@
 
 # Project Template
 
-[![build](https://github.com/dkoshkin/golang-repository-template/actions/workflows/build.yml/badge.svg)](https://github.com/dkoshkin/golang-repository-template/actions/workflows/build.yml)
+[![build](https://github.com/dkoshkin/golang-repository-template/actions/workflows/build.yaml/badge.svg)](https://github.com/dkoshkin/golang-repository-template/actions/workflows/build.yaml)
 [![codecov](https://codecov.io/github/dkoshkin/golang-repository-template/graph/badge.svg?token=RUEME4RFZK)](https://codecov.io/github/dkoshkin/golang-repository-template)
 
 This repository serves as a starting point for new Golang projects.
@@ -71,12 +71,12 @@ This repository is configured with [Codecov][Codecov] but can be removed by modi
 
 ### Build
 
-The binary for your OS will be placed in `./dist`,
-e.g. `./dist/golang-repository-template_darwin_arm64_v8.0/golang-repository-template`:
-
 ```bash
 make build-snapshot
 ```
+
+The binary for your OS will be placed in `./dist`,
+e.g. `./dist/golang-repository-template_darwin_arm64_v8.0/golang-repository-template`:
 
 ### Lint
 
@@ -100,8 +100,10 @@ make schema-chart
 
 ### Build Tooling
 
-The repository is configured with [dependabot](https://docs.github.com/en/code-security/getting-started/dependabot-quickstart-guide)
-to update both Github Actions and Golang `go.mod` dependencies.
+The repository is configured with automation to periodically update dependencies.
+
+- [dependabot action][dependabot-action] to update both Github Actions and Golang `go.mod` dependencies using [Dependabot][Dependabot].
+- [devbox action][devbox-action] to update [Devbox][Devbox] packages.
 
 [Devbox]: https://www.jetify.com/docs/devbox/installing-devbox
 [release-please-action]: https://github.com/googleapis/release-please-action
@@ -109,3 +111,6 @@ to update both Github Actions and Golang `go.mod` dependencies.
 [direnv]: https://direnv.net/
 [Codecov]: https://about.codecov.io/
 [pre-commit-hooks]: https://pre-commit.com/#3-install-the-git-hook-scripts
+[Dependabot]: https://docs.github.com/en/code-security/getting-started/dependabot-quickstart-guide
+[dependabot-action]: https://github.com/dkoshkin/golang-repository-template/actions/workflows/dependabot/dependabot-updates
+[devbox-action]: https://github.com/dkoshkin/golang-repository-template/actions/workflows/devbox-dependencies-update.yaml
