@@ -21,5 +21,6 @@ lint-and-install-chart:
 schema-chart: ## Updates helm values JSON schema
 schema-chart:
 	helm schema \
-	  --input charts/golang-repository-template/values.yaml \
+	  --use-helm-docs \
+	  --values charts/golang-repository-template/values.yaml \
 	  --output charts/golang-repository-template/values.schema.json
