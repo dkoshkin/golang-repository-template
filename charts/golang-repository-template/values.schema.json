@@ -1,4 +1,26 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "type": "object"
+    "type": "object",
+    "properties": {
+        "containerPort": {
+            "type": "integer"
+        },
+        "image": {
+            "type": "object",
+            "properties": {
+                "pullPolicy": {
+                    "type": "string"
+                },
+                "repository": {
+                    "type": "string"
+                },
+                "tag": {
+                    "type": "string"
+                }
+            }
+        },
+        "replicaCount": {
+            "type": "integer"
+        }
+    }
 }
