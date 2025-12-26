@@ -29,14 +29,21 @@ In the new repository:
 
 In Github:
 
-1. Create a [Github PAT][Github-PAT]
-   to use with [release-please-action][release-please-action], adding the following permissions:
-   - Contents: read and write
-   - Pull Requests: read and write
-   - Actions: read and write
-   - Issues: read and write
+1. Create two [Github PATs][Github-PAT] to use in Github automation.
+   - One to use with [release-please-action][release-please-action], adding the following permissions:
+     - Contents: read and write
+     - Pull Requests: read and write
+     - Actions: read and write
+     - Issues: read and write
 
-   Go to `Settings` > `Secrets and variables` > `Actions` and add is as `RELEASE_PLEASE_TOKEN`.
+     Go to `Settings` > `Secrets and variables` > `Actions` and add is as `RELEASE_PLEASE_TOKEN`.
+
+   - Another to use with [Devbox][Devbox] update automation, adding the following permissions:
+     - Contents: read and write
+     - Pull Requests: read and write
+     - Issues: read and write
+
+     Go to `Settings` > `Secrets and variables` > `Actions` and add is as `DEPENDENCY_AUTOMATION_TOKEN`.
 2. Go to `Settings` > `Pages` and set the source to `gh-pages` branch and `/ (root)` folder.
 3. Go to `Settings` > `Branches` > `Add branch ruleset` and configure it for the "default" and `release/**/*` branches.
    Enable "Require signed commits" and "Require a pull request before merging".
