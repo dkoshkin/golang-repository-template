@@ -48,13 +48,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.DEPENDENCY_AUTOMATION_TOKEN }}
           FILE_TO_COMMIT: devbox.lock
-
-          # Make the commit look like: authored by github-actions[bot], committed by dkoshkin
-          AUTHOR_NAME: github-actions[bot]
-          AUTHOR_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
-          COMMITTER_NAME: dkoshkin
-          # Pick the committer email you want shown on the commit:
-          COMMITTER_EMAIL: 159weeksold+dkoshkin@users.noreply.github.com
         run: |
           git push origin ":${DESTINATION_BRANCH}" || true
           git branch "${DESTINATION_BRANCH}"
@@ -68,11 +61,7 @@ jobs:
             --field content=@<( base64 -i "${FILE_TO_COMMIT}" ) \
             --field encoding="base64" \
             --field branch="${DESTINATION_BRANCH}" \
-            --field sha="${SHA}" \
-            --field "author[name]=${AUTHOR_NAME}" \
-            --field "author[email]=${AUTHOR_EMAIL}" \
-            --field "committer[name]=${COMMITTER_NAME}" \
-            --field "committer[email]=${COMMITTER_EMAIL}"
+            --field sha="${SHA}"
 
           echo "message=${MESSAGE}" >>"${GITHUB_OUTPUT}"
 
