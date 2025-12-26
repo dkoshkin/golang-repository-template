@@ -118,7 +118,7 @@ endif
 
 GOLANGCI_CONFIG_FILE ?= $(wildcard $(REPO_ROOT)/.golangci.y*ml)
 
-.PHONY:fmt
+.PHONY: fmt
 fmt: ## Runs golangci-lint fmt for all modules in repository
 ifneq ($(wildcard $(REPO_ROOT)/go.mod),)
 fmt: fmt.root
