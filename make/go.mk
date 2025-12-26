@@ -68,7 +68,7 @@ endif
 .PHONY: bench.%
 bench.%: ## Runs go benchmarks for a specific module
 bench.%: ; $(info $(M) running benchmarks$(if $(GOTEST_RUN), matching "$(GOTEST_RUN)") for $* module)
-	$(if $(filter-out root,$*),cd $* && )go test $(if $(GOTEST_RUN),-run "$(GOTEST_RUN)") -race -cover -v ./...
+	$(if $(filter-out root,$*),cd $* && )go test $(if $(GOTEST_RUN),-run "$(GOTEST_RUN)") -bench=. -run=^$$ -race -cover -v ./...
 
 E2E_DRYRUN ?= false
 E2E_VERBOSE ?= $(filter $(E2E_DRYRUN),true) # If dry-run, enable verbosity
