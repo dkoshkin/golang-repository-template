@@ -1,2 +1,11 @@
 # Copyright 2025 Dimitri Koshkin. All rights reserved.
 # SPDX-License-Identifier: Apache-2.0
+
+replicaCount: 1
+
+image:
+  repository: "ghcr.io/dkoshkin/golang-repository-template"
+  tag: "v0.0.0-dev"
+  pullPolicy: IfNotPresent
+
+containerPort: 8080
