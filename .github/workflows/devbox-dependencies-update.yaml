@@ -25,6 +25,9 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v6
+        with:
+          # Use a PAT so PRs/commits trigger other workflows
+          token: ${{ secrets.DEPENDENCY_AUTOMATION_TOKEN }}
 
       - name: Install devbox
         uses: jetify-com/devbox-install-action@v0.14.0
@@ -43,8 +46,15 @@ jobs:
         if: steps.devbox-versions-changed.outputs.number_changed > 0
         id: commit-changes
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.DEPENDENCY_AUTOMATION_TOKEN }}
           FILE_TO_COMMIT: devbox.lock
+
+          # Make the commit look like: authored by github-actions[bot], committed by dkoshkin
+          AUTHOR_NAME: github-actions[bot]
+          AUTHOR_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+          COMMITTER_NAME: dkoshkin
+          # Pick the committer email you want shown on the commit:
+          COMMITTER_EMAIL: 159weeksold+dkoshkin@users.noreply.github.com
         run: |
           git push origin ":${DESTINATION_BRANCH}" || true
           git branch "${DESTINATION_BRANCH}"
@@ -58,14 +68,18 @@ jobs:
             --field content=@<( base64 -i "${FILE_TO_COMMIT}" ) \
             --field encoding="base64" \
             --field branch="${DESTINATION_BRANCH}" \
-            --field sha="${SHA}"
+            --field sha="${SHA}" \
+            --field "author[name]=${AUTHOR_NAME}" \
+            --field "author[email]=${AUTHOR_EMAIL}" \
+            --field "committer[name]=${COMMITTER_NAME}" \
+            --field "committer[email]=${COMMITTER_EMAIL}"
 
           echo "message=${MESSAGE}" >>"${GITHUB_OUTPUT}"
 
       - name: Create PR
         if: steps.devbox-versions-changed.outputs.number_changed > 0
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.DEPENDENCY_AUTOMATION_TOKEN }}
         run: |
           pr_url="$(gh pr create --base "${{ github.ref_name }}" --head "${DESTINATION_BRANCH}" \
             --title "${{ steps.commit-changes.outputs.message }}" \
