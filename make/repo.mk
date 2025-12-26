@@ -12,7 +12,7 @@ export GIT_CURRENT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
 export GITHUB_ORG := $(shell gh repo view --jq '.owner.login' --json owner)
 export GITHUB_REPOSITORY := $(shell gh repo view --jq '.name' --json name)
 
-ifneq ($(shell git status --porcelain 2>/dev/null; echo $$?), 0)
+ifneq ($(strip $(shell git status --porcelain 2>/dev/null)),)
 	export GIT_TREE_STATE := dirty
 else
 	export GIT_TREE_STATE :=
