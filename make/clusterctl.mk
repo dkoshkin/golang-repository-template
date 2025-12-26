@@ -1,7 +1,7 @@
 # Copyright 2025 Dimitri Koshkin. All rights reserved.
 # SPDX-License-Identifier: Apache-2.0
 
-export CAPI_VERSION := "v1.10.4"
+export CAPI_VERSION := v1.12.1
 export CAPD_VERSION := $(CAPI_VERSION)
 
 .PHONY: clusterctl.init
