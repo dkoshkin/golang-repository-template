@@ -3,6 +3,7 @@
 
 export CAPI_VERSION := v1.12.1
 export CAPD_VERSION := $(CAPI_VERSION)
+export CAAPH_VERSION := v0.5.3
 
 .PHONY: clusterctl.init
 clusterctl.init:
