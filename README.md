@@ -25,7 +25,8 @@ In the new repository:
 
 1. Search and replacing all instances of `golang-repository-template` and `Golang Repository Template`
    with your project’s name.
-2. Update the files in `hack/license` with your details.
+2. Search and replacing all instances of `ghcr.io/dkoshkin/golang-repository-template` with the image name.
+3. Update the files in `hack/license` with your details.
 
 In Github:
 
