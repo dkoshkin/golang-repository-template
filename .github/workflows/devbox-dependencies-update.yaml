@@ -42,26 +42,35 @@ jobs:
         run: |
           echo "number_changed=$(git diff --unified=0 devbox.lock | grep -c \"version\":)" >>"${GITHUB_OUTPUT}"
 
+      - name: Configure SSH signing
+        if: steps.devbox-versions-changed.outputs.number_changed > 0
+        env:
+          SSH_SIGNING_PRIVATE_KEY: ${{ secrets.GIT_SSH_SIGNING_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "${SSH_SIGNING_PRIVATE_KEY}" > ~/.ssh/signing_key
+          chmod 600 ~/.ssh/signing_key
+          git config gpg.format ssh
+          git config user.signingkey "${HOME}/.ssh/signing_key"
+
+          git config user.name "${{ secrets.GIT_USER_NAME }}"
+          git config user.email "${{ secrets.GIT_USER_EMAIL }}"
+
       - name: Commit changes
         if: steps.devbox-versions-changed.outputs.number_changed > 0
         id: commit-changes
         env:
-          GITHUB_TOKEN: ${{ secrets.DEPENDENCY_AUTOMATION_TOKEN }}
           FILE_TO_COMMIT: devbox.lock
         run: |
           git push origin ":${DESTINATION_BRANCH}" || true
           git branch "${DESTINATION_BRANCH}"
-          git push origin "${DESTINATION_BRANCH}"
+          git add "${FILE_TO_COMMIT}"
 
           TODAY="$( date -u '+%Y-%m-%d' )"
           MESSAGE="build(${{ github.ref_name }}): Latest devbox update (${TODAY})"
-          SHA=$( git rev-parse "${DESTINATION_BRANCH}":"${FILE_TO_COMMIT}" )
-          gh api --method PUT "/repos/:owner/:repo/contents/${FILE_TO_COMMIT}" \
-            --field message="${MESSAGE}" \
-            --field content=@<( base64 -i "${FILE_TO_COMMIT}" ) \
-            --field encoding="base64" \
-            --field branch="${DESTINATION_BRANCH}" \
-            --field sha="${SHA}"
+
+          git commit -S -m "${MESSAGE}"
+          git push -f origin "${DESTINATION_BRANCH}"
 
           echo "message=${MESSAGE}" >>"${GITHUB_OUTPUT}"
 
