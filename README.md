@@ -25,7 +25,8 @@ In the new repository:
 
 1. Search and replacing all instances of `golang-repository-template` and `Golang Repository Template`
    with your project’s name.
-2. Update the files in `hack/license` with your details.
+2. Rename the folder in `cmd/` and `charts/` with your project’s name.
+3. Update the files in `hack/license` with your details.
 
 In Github:
 
@@ -60,6 +61,11 @@ In Github:
    - govulncheck / govulncheck (.)
    - codeql / analyze (go)
    - e2e-tests / e2e-tests
+4. Go to `Settings` > `Pages` > `Branch` and select `main` and `/docs` as the Source.
+
+In [Codecov][Codecov]:
+
+Go to `Settings` > `Secrets and variables` > `Actions` and add the generated token as `CODECOV_TOKEN`.
 
 ## Setup your Dev Environment
 
