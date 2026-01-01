@@ -3,7 +3,7 @@
 
 apiVersion: v2
 
-name: Golang Repository Template
+name: golang-repository-template
 type: application
 description: A Helm chart for Golang Repository Template
 
