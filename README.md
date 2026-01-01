@@ -44,6 +44,9 @@ In Github:
      - Issues: read and write
 
      Go to `Settings` > `Secrets and variables` > `Actions` and add is as `DEPENDENCY_AUTOMATION_TOKEN`.
+
+     Go to `Settings` > `Secrets and variables` > `Actions` and add these Secrets
+     `GIT_SSH_SIGNING_PRIVATE_KEY`, `GIT_USER_NAME` and `GIT_USER_EMAIL`.
 2. Go to `Settings` > `Pages` and set the source to `gh-pages` branch and `/ (root)` folder.
 3. Go to `Settings` > `Branches` > `Add branch ruleset` and configure it for the "default" and `release/**/*` branches.
    Enable "Require signed commits" and "Require a pull request before merging".
