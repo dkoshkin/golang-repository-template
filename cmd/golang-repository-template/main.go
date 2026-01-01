@@ -7,6 +7,7 @@ import (
 	"context"
 	"crypto/tls"
 	"log"
+	"net"
 	"net/http"
 	"os"
 	"os/signal"
@@ -36,8 +37,15 @@ func main() {
 
 	errs := make(chan error, 1)
 	go func() {
+		ln, err := net.Listen("tcp", server.Addr)
+		if err != nil {
+			errs <- err
+			return
+		}
 		log.Printf("listening on :%s", port)
-		errs <- server.ListenAndServe()
+		// https://pkg.go.dev/vuln/GO-2025-4155 in Go 1.25.4
+		// Use .ListenAndServe() instead
+		errs <- server.Serve(ln)
 	}()
 
 	sigc := make(chan os.Signal, 1)
