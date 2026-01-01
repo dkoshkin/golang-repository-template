@@ -63,14 +63,13 @@ jobs:
           FILE_TO_COMMIT: devbox.lock
         run: |
           git push origin ":${DESTINATION_BRANCH}" || true
-          git branch "${DESTINATION_BRANCH}"
           git add "${FILE_TO_COMMIT}"
 
           TODAY="$( date -u '+%Y-%m-%d' )"
           MESSAGE="build(${{ github.ref_name }}): Latest devbox update (${TODAY})"
 
           git commit -S -m "${MESSAGE}"
-          git push -f origin "${DESTINATION_BRANCH}"
+          git push -f origin "HEAD:${DESTINATION_BRANCH}"
 
           echo "message=${MESSAGE}" >>"${GITHUB_OUTPUT}"
 
