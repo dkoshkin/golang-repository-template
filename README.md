@@ -27,10 +27,12 @@ In the new repository:
    with your project’s name.
 2. Rename the folder in `cmd/` and `charts/` with your project’s name.
 3. Update the files in `hack/license` with your details.
+4. Run `echo "{}" > .release-please-manifest.json` to clear out the release-please version.
 
 In Github:
 
-1. Create two [Github PATs][Github-PAT] to use in Github automation.
+1. Go to `Settings` > `General` and enable `Allow auto-merge` and `Automatically delete head branches`.
+2. Create two [Github PATs][Github-PAT] to use in Github automation.
    - One to use with [release-please-action][release-please-action], adding the following permissions:
      - Contents: read and write
      - Pull Requests: read and write
@@ -48,8 +50,8 @@ In Github:
 
      Go to `Settings` > `Secrets and variables` > `Actions` and add these Secrets
      `GIT_SSH_SIGNING_PRIVATE_KEY`, `GIT_USER_NAME` and `GIT_USER_EMAIL`.
-2. Go to `Settings` > `Pages` and set the source to `gh-pages` branch and `/ (root)` folder.
-3. Go to `Settings` > `Branches` > `Add branch ruleset` and configure it for the "default" and `release/**/*` branches.
+3. Go to `Settings` > `Pages` and set the source to `gh-pages` branch and `/ (root)` folder.
+4. Go to `Settings` > `Branches` > `Add branch ruleset` and configure it for the "default" and `release/**/*` branches.
    Enable "Require signed commits" and "Require a pull request before merging".
    Enable "Require status checks to pass" with the following checks:
    - build / build
@@ -61,7 +63,7 @@ In Github:
    - govulncheck / govulncheck (.)
    - codeql / analyze (go)
    - e2e-tests / e2e-tests
-4. Go to `Settings` > `Pages` > `Branch` and select `main` and `/docs` as the Source.
+5. Go to `Settings` > `Pages` > `Branch` and select `main` and `/docs` as the Source.
 
 In [Codecov][Codecov]:
 

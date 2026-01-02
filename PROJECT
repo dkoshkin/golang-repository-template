@@ -6,6 +6,10 @@ cliVersion: v4.10.1
 domain: com.dimitrikoshkin.golang-repository-template
 layout:
 - go.kubebuilder.io/v4
+plugins:
+  helm.kubebuilder.io/v2-alpha:
+    manifests: dist/install.yaml
+    output: dist
 projectName: golang-repository-template
 repo: github.com/dkoshkin/golang-repository-template
 version: "3"

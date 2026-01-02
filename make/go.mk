@@ -194,6 +194,8 @@ go-fix.%: ; $(info $(M) go fixing $* module)
 go-generate: ## Runs go generate
 go-generate: ; $(info $(M) running go generate)
 	go generate -x ./...
+	# Run Kubebuilder generators
+	$(MAKE) generate manifests
 	$(MAKE) go-fix fmt
 
 .PHONY: govulncheck

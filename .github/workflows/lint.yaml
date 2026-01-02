@@ -117,7 +117,7 @@ jobs:
           devbox run -- \
             ct install \
               --config charts/ct-config.yaml \
-              --helm-extra-set-args "--set-string image.repository=ko.local/golang-repository-template --set-string image.tag=${{ steps.export-image-tag.outputs.test-image-tag }}"
+              --helm-extra-set-args "--set-string manager.image.repository=ko.local/golang-repository-template --set-string manager.image.tag=${{ steps.export-image-tag.outputs.test-image-tag }}"
         env:
           KUBECONFIG: ${{ env.KIND_KUBECONFIG }}
 

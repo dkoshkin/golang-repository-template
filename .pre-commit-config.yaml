@@ -4,6 +4,12 @@
 repos:
 - repo: local
   hooks:
+  - id: kubebuilder-sync-chart
+    name: kubebuilder-sync-chart
+    entry: make kubebuilder.sync-chart
+    language: system
+    files: "^(PROJECT|config/.*|api/.*)$"
+    pass_filenames: false
   - id: schema-chart
     name: schema-chart
     entry: make schema-chart
