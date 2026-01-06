@@ -37,6 +37,12 @@ linters:
     - usetesting
     - whitespace
   settings:
+    depguard:
+      rules:
+        main:
+          list-mode: lax
+          allow:
+            - $gostd
     errchkjson:
       check-error-free-encoding: true
     gocritic:
