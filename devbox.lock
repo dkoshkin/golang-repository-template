@@ -1701,6 +1701,54 @@
         }
       }
     },
+    "yamlfmt@latest": {
+      "last_modified": "2025-11-23T21:50:36Z",
+      "resolved": "github:NixOS/nixpkgs/ee09932cedcef15aaf476f9343d1dea2cb77e261#yamlfmt",
+      "source": "devbox-search",
+      "version": "0.20.0",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/369zxblq3vpn798mp3vv9w3pdda8bp72-yamlfmt-0.20.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/369zxblq3vpn798mp3vv9w3pdda8bp72-yamlfmt-0.20.0"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/gk3ndkasjqd4h0zgg2v2j986sf6f9svf-yamlfmt-0.20.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/gk3ndkasjqd4h0zgg2v2j986sf6f9svf-yamlfmt-0.20.0"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/n7m6gi7j93xsxmw8vc2lhiy4dlh7q772-yamlfmt-0.20.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/n7m6gi7j93xsxmw8vc2lhiy4dlh7q772-yamlfmt-0.20.0"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/xc4xbvx0jl2xhx1gl1x6xdmf9s9lsp8d-yamlfmt-0.20.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/xc4xbvx0jl2xhx1gl1x6xdmf9s9lsp8d-yamlfmt-0.20.0"
+        }
+      }
+    },
     "yamllint@latest": {
       "last_modified": "2025-11-23T21:50:36Z",
       "resolved": "github:NixOS/nixpkgs/ee09932cedcef15aaf476f9343d1dea2cb77e261#yamllint",
