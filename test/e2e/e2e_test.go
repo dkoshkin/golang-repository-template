@@ -20,6 +20,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+//nolint:gosec // Allow running exec with trusted variables.
 package e2e
 
 import (
@@ -36,16 +37,16 @@ import (
 	"github.com/dkoshkin/golang-repository-template/test/utils"
 )
 
-// namespace where the project is deployed in
+// namespace where the project is deployed in.
 const namespace = "golang-repository-template-system"
 
-// serviceAccountName created for the project
+// serviceAccountName created for the project.
 const serviceAccountName = "golang-repository-template-controller-manager"
 
-// metricsServiceName is the name of the metrics service of the project
+// metricsServiceName is the name of the metrics service of the project.
 const metricsServiceName = "golang-repository-template-controller-manager-metrics-service"
 
-// metricsRoleBindingName is the name of the RBAC that will be created to allow get the metrics data
+// metricsRoleBindingName is the name of the RBAC that will be created to allow get the metrics data.
 const metricsRoleBindingName = "golang-repository-template-metrics-binding"
 
 var _ = Describe("Manager", Ordered, func() {
@@ -294,7 +295,7 @@ func serviceAccountToken() (string, error) {
 
 	// Temporary file to store the token request
 	secretName := fmt.Sprintf("%s-token-request", serviceAccountName)
-	tokenRequestFile := filepath.Join("/tmp", secretName)
+	tokenRequestFile := filepath.Join(os.TempDir(), secretName)
 	err := os.WriteFile(tokenRequestFile, []byte(tokenRequestRawString), os.FileMode(0o644))
 	if err != nil {
 		return "", err
