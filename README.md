@@ -23,21 +23,28 @@ which uses the Kubebuilder Helm plugin to keep your chart in sync with generated
 
 ## Usage Instructions
 
-Use this repo as the template for a new repository.
+Use this repo as the template for a new repository by making the following changes.
 
-In the new repository:
+### Changes in the repository
 
 1. Search and replacing all instances of `golang-repository-template` and `Golang Repository Template`
    with your project's name.
 2. Rename the folder in `cmd/` and `charts/` with your project's name.
 3. Update the files in `hack/license` with your details.
 4. Run `echo "{}" > .release-please-manifest.json` to clear out the release-please version.
-5. If not using [Kubebuilder][Kubebuilder],
-   remove the `kubebuilder.sync-chart` target from `make/goreleaser.mk`,
-   and `generate manifests` target from `make/go.mk`,
-   and delete the `PROJECT` file and `config/` directory.
 
-In Github:
+#### Kubebuilder
+
+This template is initialized with [Kubebuilder][Kubebuilder] to build Kubernetes controllers.
+To remove, make the following changes:
+
+1. Remove `kubebuilder.sync-chart` target in [`make/goreleaser.mk`](make/goreleaser.mk).
+2. Remove `generate manifests` target from [`make/go.mk`](make/go.mk).
+3. Delete the [`make/kubebuilder.mk`](make/kubebuilder.mk) and remove its reference from [`make/all.mk`](make/all.mk).
+4. Delete the [`PROJECT`](PROJECT) file.
+5. Delete the [`config/`](config/) directory.
+
+### Changes in Github
 
 1. Go to `Settings` > `General` and enable `Allow auto-merge` and `Automatically delete head branches`.
 2. Create two [Github PATs][Github-PAT] to use in Github automation.
@@ -73,7 +80,9 @@ In Github:
    - e2e-tests / e2e-tests
 5. Go to `Settings` > `Pages` > `Branch` and select `main` and `/docs` as the Source.
 
-In [Codecov][Codecov]:
+### Changes in Codecov
+
+This template is configured with [Codecov][Codecov] that must be configured before using.
 
 Go to `Settings` > `Secrets and variables` > `Actions` and add the generated token as `CODECOV_TOKEN`.
 
