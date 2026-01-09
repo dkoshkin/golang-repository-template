@@ -13,6 +13,10 @@ It includes a Makefile with common development targets with `make`,
 a pre-configured development environment using [Devbox][Devbox],
 GitHub Actions workflows, and [release-please-action][release-please-action] for release automation.
 
+The template is configured with [Kubebuilder][Kubebuilder] v4 for building Kubernetes operators.
+Kubebuilder manifests in `config/` are automatically synced to the Helm chart using the `kubebuilder.sync-chart` make target,
+which uses the Kubebuilder Helm plugin to keep your chart in sync with generated RBAC, manager, and other Kubernetes resources
+
 ## Prerequisites
 
 ...
@@ -24,13 +28,19 @@ Use this repo as the template for a new repository.
 In the new repository:
 
 1. Search and replacing all instances of `golang-repository-template` and `Golang Repository Template`
-   with your project’s name.
-2. Rename the folder in `cmd/` and `charts/` with your project’s name.
+   with your project's name.
+2. Rename the folder in `cmd/` and `charts/` with your project's name.
 3. Update the files in `hack/license` with your details.
+4. Run `echo "{}" > .release-please-manifest.json` to clear out the release-please version.
+5. If not using [Kubebuilder][Kubebuilder],
+   remove the `kubebuilder.sync-chart` target from `make/goreleaser.mk`,
+   and `generate manifests` target from `make/go.mk`,
+   and delete the `PROJECT` file and `config/` directory.
 
 In Github:
 
-1. Create two [Github PATs][Github-PAT] to use in Github automation.
+1. Go to `Settings` > `General` and enable `Allow auto-merge` and `Automatically delete head branches`.
+2. Create two [Github PATs][Github-PAT] to use in Github automation.
    - One to use with [release-please-action][release-please-action], adding the following permissions:
      - Contents: read and write
      - Pull Requests: read and write
@@ -48,8 +58,8 @@ In Github:
 
      Go to `Settings` > `Secrets and variables` > `Actions` and add these Secrets
      `GIT_SSH_SIGNING_PRIVATE_KEY`, `GIT_USER_NAME` and `GIT_USER_EMAIL`.
-2. Go to `Settings` > `Pages` and set the source to `gh-pages` branch and `/ (root)` folder.
-3. Go to `Settings` > `Branches` > `Add branch ruleset` and configure it for the "default" and `release/**/*` branches.
+3. Go to `Settings` > `Pages` and set the source to `gh-pages` branch and `/ (root)` folder.
+4. Go to `Settings` > `Branches` > `Add branch ruleset` and configure it for the "default" and `release/**/*` branches.
    Enable "Require signed commits" and "Require a pull request before merging".
    Enable "Require status checks to pass" with the following checks:
    - build / build
@@ -61,7 +71,7 @@ In Github:
    - govulncheck / govulncheck (.)
    - codeql / analyze (go)
    - e2e-tests / e2e-tests
-4. Go to `Settings` > `Pages` > `Branch` and select `main` and `/docs` as the Source.
+5. Go to `Settings` > `Pages` > `Branch` and select `main` and `/docs` as the Source.
 
 In [Codecov][Codecov]:
 
@@ -130,3 +140,4 @@ The repository is configured with automation to periodically update dependencies
 [Dependabot]: https://docs.github.com/en/code-security/getting-started/dependabot-quickstart-guide
 [dependabot-action]: https://github.com/dkoshkin/golang-repository-template/actions/workflows/dependabot/dependabot-updates
 [devbox-action]: https://github.com/dkoshkin/golang-repository-template/actions/workflows/devbox-dependencies-update.yaml
+[Kubebuilder]: https://book.kubebuilder.io/

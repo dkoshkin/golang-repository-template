@@ -12,11 +12,11 @@ dev.run-on-kind:
 	kind load docker-image --name $(KIND_CLUSTER_NAME) \
 		ko.local/golang-repository-template:$(SNAPSHOT_VERSION)
 	helm upgrade --install golang-repository-template ./charts/golang-repository-template \
-		--set-string image.repository=ko.local/golang-repository-template \
-		--set-string image.tag=$(SNAPSHOT_VERSION) \
+		--set-string manager.image.repository=ko.local/golang-repository-template \
+		--set-string manager.image.tag=$(SNAPSHOT_VERSION) \
 		--wait --wait-for-jobs
-	kubectl rollout restart deployment golang-repository-template
-	kubectl rollout status deployment golang-repository-template
+	kubectl rollout restart deployment golang-repository-template-controller-manager
+	kubectl rollout status deployment golang-repository-template-controller-manager
 
 .PHONY: dev.image-on-kind
 dev.image-on-kind: export KUBECONFIG := $(KIND_KUBECONFIG)
@@ -29,8 +29,8 @@ dev.image-on-kind:
 	  ko.local/golang-repository-template:$(SNAPSHOT_VERSION)
 	kubectl set image deployment \
 	  golang-repository-template manager=ko.local/golang-repository-template:$(SNAPSHOT_VERSION)
-	kubectl rollout restart deployment golang-repository-template
-	kubectl rollout status deployment golang-repository-template
+	kubectl rollout restart deployment golang-repository-template-controller-manager
+	kubectl rollout status deployment golang-repository-template-controller-manager
 
 .PHONY: release-please
 release-please:

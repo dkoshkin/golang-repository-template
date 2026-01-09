@@ -1,0 +1,23 @@
+# Copyright 2025 Dimitri Koshkin. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+{{- if .Values.metrics.enable }}
+apiVersion: v1
+kind: Service
+metadata:
+    labels:
+        app.kubernetes.io/managed-by: {{ .Release.Service }}
+        app.kubernetes.io/name: golang-repository-template
+        control-plane: controller-manager
+    name: golang-repository-template-controller-manager-metrics-service
+    namespace: {{ .Release.Namespace }}
+spec:
+    ports:
+        - name: https
+          port: {{ .Values.metrics.port }}
+          protocol: TCP
+          targetPort: {{ .Values.metrics.port }}
+    selector:
+        app.kubernetes.io/name: golang-repository-template
+        control-plane: controller-manager
+{{- end }}

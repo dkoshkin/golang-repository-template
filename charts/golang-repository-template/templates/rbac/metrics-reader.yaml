@@ -1,0 +1,14 @@
+# Copyright 2025 Dimitri Koshkin. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+{{- if .Values.metrics.enable }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+    name: golang-repository-template-metrics-reader
+rules:
+    - nonResourceURLs:
+        - /metrics
+      verbs:
+        - get
+{{- end }}
