@@ -18,6 +18,8 @@ junit-report.xml
 junit-e2e.xml
 report-e2e.json
 openapi_violations.report
+# compiled test binaries
+*.test
 
 .idea/
 
