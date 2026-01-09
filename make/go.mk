@@ -82,7 +82,7 @@ e2e-test: dev.run-on-kind
 ifneq ($(wildcard test/e2e/*),)
 e2e-test:
 	$(info $(M) $(if $(filter $(E2E_DRYRUN), true),dry-,)running e2e tests$(if $(E2E_LABEL), labelled "$(E2E_LABEL)")$(if $(E2E_FOCUS), matching "$(E2E_FOCUS)"))
-	  KUBECONFIG=$(KIND_KUBECONFIG) \
+	  env KUBECONFIG=$(KUBECONFIG) \
       ginkgo run \
 	    --r \
 	    --show-node-events \

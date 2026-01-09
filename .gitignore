@@ -33,6 +33,7 @@ dist/
 *.tar
 .envrc.local
 capd-kubeconfig
+*kind-kubeconfig
 
 ct_previous_*/
 
