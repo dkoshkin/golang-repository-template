@@ -17,19 +17,26 @@ endif
 export KINDEST_IMAGE_TAG ?= $(KINDEST_NODE_VERSION_$(KIND_KUBERNETES_VERSION))
 KINDEST_IMAGE = $(KINDEST_NODE_IMAGE):$(KINDEST_IMAGE_TAG)
 
+CERT_MANAGER_VERSION ?= v1.19.2
+
 .PHONY: kind.recreate
 kind.recreate: ## Re-creates new KinD cluster if necessary
 kind.recreate: kind.delete kind.create
 
 .PHONY: kind.create
-kind.create: ## Creates new KinD cluster
+kind.create: ## Creates new KinD cluster and installs cert-manager
 kind.create: ; $(info $(M) creating kind cluster - $(KIND_CLUSTER_NAME))
 	(kind get clusters 2>/dev/null | grep -Eq '^$(KIND_CLUSTER_NAME)$$' && echo '$(KIND_CLUSTER_NAME) already exists') || \
-		env KUBECONFIG=$(KIND_KUBECONFIG) $(REPO_ROOT)/hack/kind/create-cluster.sh \
-		  --cluster-name $(KIND_CLUSTER_NAME) \
-		  --kindest-image $(KINDEST_IMAGE) \
-		  --output-dir $(KIND_DIR)/$(KIND_CLUSTER_NAME) \
-		  --base-config $(REPO_ROOT)/hack/kind/kind-base-config.yaml
+		( \
+		  env KUBECONFIG=$(KIND_KUBECONFIG) \
+		  $(REPO_ROOT)/hack/kind/create-cluster.sh \
+		    --cluster-name $(KIND_CLUSTER_NAME) \
+		    --kindest-image $(KINDEST_IMAGE) \
+		    --output-dir $(KIND_DIR)/$(KIND_CLUSTER_NAME) \
+		    --base-config $(REPO_ROOT)/hack/kind/kind-base-config.yaml && \
+		  env KUBECONFIG=$(KIND_KUBECONFIG) \
+		  kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/$(CERT_MANAGER_VERSION)/cert-manager.yaml \
+		)
 
 .PHONY: kind.delete
 kind.delete: ## Deletes KinD cluster
