@@ -75,16 +75,6 @@
               helm-schema
             ];
           };
-
-          go_1_25_5 = go.overrideAttrs (oldAttrs: rec {
-            version = "1.25.5";
-            src = fetchurl {
-              url = "https://go.dev/dl/go${version}.src.tar.gz";
-              hash = "sha256-IqX9CpHvzSihsFNxBrmVmygEth9Zw3WLUejlQpwalU8=";
-            };
-            # Skip patches that don't apply to this version
-            patches = [ ];
-          });
         };
 
         formatter = alejandra;
