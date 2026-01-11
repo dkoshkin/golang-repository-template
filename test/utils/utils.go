@@ -1,7 +1,6 @@
 // Copyright 2025 Dimitri Koshkin. All rights reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-//nolint:gosec // Allow running exec with trusted variables.
 package utils
 
 import (
