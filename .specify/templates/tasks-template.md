@@ -25,10 +25,13 @@ description: "Task list template for feature implementation"
 
 ## Path Conventions
 
-- **Single project**: `src/`, `tests/` at repository root
-- **Web app**: `backend/src/`, `frontend/src/`
-- **Mobile**: `api/src/`, `ios/src/` or `android/src/`
-- Paths shown below assume single project - adjust based on plan.md structure
+Project type determines path structure (see plan.md for details):
+
+- **Controller-only**: APIs in `api/v1alpha1/`, controllers in `internal/controller/`, controller binary in `cmd/<project>/`, config in `config/`, charts in `charts/`
+- **CLI-only**: CLI binary in `cmd/<cli-name>/`, business logic in `internal/commands/`, tests in `test/`
+- **Both**: Controller in `cmd/<project>-controller/`, CLI in `cmd/<project>-cli/` (or `cmd/<project>/`), shared code in `internal/`
+
+All controller paths follow Kubebuilder v4 conventions. `.goreleaser.yaml` MUST have build IDs matching `cmd/` directories.
 
 <!--
   ============================================================================
@@ -51,30 +54,54 @@ description: "Task list template for feature implementation"
 
 ## Phase 1: Setup (Shared Infrastructure)
 
-**Purpose**: Project initialization and basic structure
+**Purpose**: Project initialization based on project type (Controller/CLI/Both)
 
-- [ ] T001 Create project structure per implementation plan
-- [ ] T002 Initialize [language] project with [framework] dependencies
-- [ ] T003 [P] Configure linting and formatting tools
+**For all project types:**
+- [ ] T001 Configure Go module dependencies in `go.mod`
+- [ ] T002 [P] Setup golangci-lint, pre-commit hooks, and CI workflows
+- [ ] T003 [P] Configure Codecov and test reporting
+- [ ] T004 Update `.goreleaser.yaml` with correct build IDs matching `cmd/` directories
+
+**Additional for Controller or Both:**
+- [ ] T005 Verify `kubebuilder init` has been run (PROJECT file exists)
+- [ ] T006 Setup Helm chart structure in `charts/<project>/`
+
+**Additional for CLI or Both:**
+- [ ] T007 Setup cobra CLI structure in `cmd/<cli-name>/`
+- [ ] T008 Create base CLI command structure with version, help flags
 
 ---
 
 ## Phase 2: Foundational (Blocking Prerequisites)
 
-**Purpose**: Core infrastructure that MUST be complete before ANY user story can be implemented
+**Purpose**: Core infrastructure that MUST be complete before user story implementation
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-Examples of foundational tasks (adjust based on your project):
+**For Controller-only projects:**
+- [ ] T009 Run `kubebuilder create api` to scaffold CRD in `api/v1alpha1/[resource]_types.go`
+- [ ] T010 Define CRD Spec and Status fields with kubebuilder markers (+kubebuilder:validation, +kubebuilder:printcolumn)
+- [ ] T011 Run `make manifests` to generate CRD YAML in `config/crd/`
+- [ ] T012 Run `make kubebuilder.sync-chart` to sync manifests to Helm chart
+- [ ] T013 [P] Setup controller reconciliation skeleton in `internal/controller/[resource]_controller.go`
+- [ ] T014 [P] Configure controller manager with metrics, health probes, and leader election
+- [ ] T015 [P] Setup structured logging (logr) and Prometheus metrics exporter
+- [ ] T016 Create base test suite with envtest in `test/e2e/`
 
-- [ ] T004 Setup database schema and migrations framework
-- [ ] T005 [P] Implement authentication/authorization framework
-- [ ] T006 [P] Setup API routing and middleware structure
-- [ ] T007 Create base models/entities that all stories depend on
-- [ ] T008 Configure error handling and logging infrastructure
-- [ ] T009 Setup environment configuration management
+**For CLI-only projects:**
+- [ ] T009 Create core command structure in `internal/commands/`
+- [ ] T010 [P] Setup configuration loading (flags, env vars, config files)
+- [ ] T011 [P] Create shared client/API utilities in `internal/client/`
+- [ ] T012 Setup unit test framework in `test/`
 
-**Checkpoint**: Foundation ready - user story implementation can now begin in parallel
+**For Both (Controller + CLI) projects:**
+- [ ] T009 Complete all controller foundation tasks (T009-T016 from Controller-only)
+- [ ] T017 Create CLI binary structure in `cmd/<project>-cli/`
+- [ ] T018 Create shared utilities in `internal/util/` for use by both binaries
+- [ ] T019 Ensure `.goreleaser.yaml` has TWO build IDs (controller + CLI)
+- [ ] T020 CLI commands for interacting with controller CRDs (get, list, create, delete)
+
+**Checkpoint**: Foundation ready - user story implementation can now begin
 
 ---
 
@@ -86,21 +113,27 @@ Examples of foundational tasks (adjust based on your project):
 
 ### Tests for User Story 1 (OPTIONAL - only if tests requested) ⚠️
 
-> **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
+> **NOTE: Write these tests FIRST, ensure they FAIL before implementation (TDD)**
 
-- [ ] T010 [P] [US1] Contract test for [endpoint] in tests/contract/test_[name].py
-- [ ] T011 [P] [US1] Integration test for [user journey] in tests/integration/test_[name].py
+- [ ] T013 [P] [US1] Unit test for reconciliation logic in internal/controller/[resource]_controller_test.go
+- [ ] T014 [P] [US1] Integration test using envtest in test/e2e/e2e_test.go
+- [ ] T015 [P] [US1] E2E test with real kind cluster validating end-to-end user workflow
 
 ### Implementation for User Story 1
 
-- [ ] T012 [P] [US1] Create [Entity1] model in src/models/[entity1].py
-- [ ] T013 [P] [US1] Create [Entity2] model in src/models/[entity2].py
-- [ ] T014 [US1] Implement [Service] in src/services/[service].py (depends on T012, T013)
-- [ ] T015 [US1] Implement [endpoint/feature] in src/[location]/[file].py
-- [ ] T016 [US1] Add validation and error handling
-- [ ] T017 [US1] Add logging for user story 1 operations
+- [ ] T016 [US1] Add Spec fields to api/v1alpha1/[resource]_types.go for user story requirements
+- [ ] T017 [US1] Add Status conditions to api/v1alpha1/[resource]_types.go (Ready, Progressing, Failed)
+- [ ] T018 [US1] Run `make manifests` to regenerate CRD with new fields
+- [ ] T019 [US1] Implement reconciliation logic in internal/controller/[resource]_controller.go
+- [ ] T020 [US1] Add finalizer handling for resource cleanup (if external resources created)
+- [ ] T021 [US1] Update Status conditions based on reconciliation outcome
+- [ ] T022 [US1] Emit Kubernetes Events for important state transitions
+- [ ] T023 [US1] Add structured logging with appropriate log levels
+- [ ] T024 [US1] Update Prometheus metrics (reconciliation duration, error count)
+- [ ] T025 [US1] Run `make kubebuilder.sync-chart` to sync changes to Helm chart
+- [ ] T026 [US1] Update Helm chart values.yaml with new configuration options (if any)
 
-**Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
+**Checkpoint**: At this point, User Story 1 should be fully functional, tested, and deployable via Helm
 
 ---
 
