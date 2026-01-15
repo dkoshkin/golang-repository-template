@@ -58,15 +58,7 @@ To remove, make the following changes:
 
 1. Go to `Settings` > `General` and enable `Allow auto-merge` and `Automatically delete head branches`.
 2. Go to `Settings` > `General` > `Pull Requests` and unselect `Allow merge commits` and `Allow rebase merging`.
-3. Create two [Github PATs][Github-PAT] to use in Github automation.
-   - One to use with [release-please-action][release-please-action], adding the following permissions:
-     - Contents: read and write
-     - Pull Requests: read and write
-     - Actions: read and write
-     - Issues: read and write
-
-     Go to `Settings` > `Secrets and variables` > `Actions` and add is as `RELEASE_PLEASE_TOKEN`.
-
+3. Create a [Github PATs][Github-PAT] to use in Github automation.
    - Another to use with [Devbox][Devbox] update automation, adding the following permissions:
      - Contents: read and write
      - Pull Requests: read and write
