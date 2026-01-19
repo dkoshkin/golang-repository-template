@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.2.3 (2026-01-19)
+
+<!-- Release notes generated using configuration in .github/release.yaml at main -->
+
+## What's Changed
+### Fixes 🔧
+* fix: correctly tag additional modules on release by @dkoshkin in https://github.com/dkoshkin/golang-repository-template/pull/78
+
+
+**Full Changelog**: https://github.com/dkoshkin/golang-repository-template/compare/v0.2.2...v0.2.3
+
 ## 0.2.2 (2026-01-19)
 
 <!-- Release notes generated using configuration in .github/release.yaml at main -->
