@@ -12,7 +12,7 @@ kustomize: ; $(info $(M) using kustomize from PATH)
 	command -v kustomize >/dev/null
 
 .PHONY: manifests
-manifests: controller-gen ## Generate WebhookConfiguration, ClusterRole and CustomResourceDefinition objects.
+manifests: controller-gen mod-tidy ## Generate WebhookConfiguration, ClusterRole and CustomResourceDefinition objects.
 manifests: ; $(info $(M) generating CRDs and RBAC manifests)
 	controller-gen paths="./..." \
 		rbac:headerFile="hack/license/yaml.txt",roleName=manager-role
@@ -23,7 +23,7 @@ manifests: ; $(info $(M) generating CRDs and RBAC manifests)
 		webhook:headerFile="hack/license/yaml.txt"
 
 .PHONY: generate
-generate: controller-gen ## Generate code containing DeepCopy, DeepCopyInto, and DeepCopyObject method implementations.
+generate: controller-gen mod-tidy ## Generate code containing DeepCopy, DeepCopyInto, and DeepCopyObject method implementations.
 generate: ; $(info $(M) generating deepcopy code)
 	controller-gen object:headerFile="hack/license/go.txt" paths="./..."
 
