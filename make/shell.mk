@@ -1,4 +1,4 @@
-# Copyright 2025 Dimitri Koshkin. All rights reserved.
+# Copyright 2026 Dimitri Koshkin. All rights reserved.
 # SPDX-License-Identifier: Apache-2.0
 
 # This is compatible with Darwin, see https://itnext.io/upgrading-bash-on-macos-7138bd1066ba
