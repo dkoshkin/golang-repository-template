@@ -1,4 +1,4 @@
-# Copyright 2025 Dimitri Koshkin. All rights reserved.
+# Copyright 2026 Dimitri Koshkin. All rights reserved.
 # SPDX-License-Identifier: Apache-2.0
 
 # The GOPRIVATE environment variable controls which modules the go command considers
