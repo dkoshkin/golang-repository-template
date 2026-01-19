@@ -37,7 +37,7 @@ jobs:
         run: |
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          make tag-modules NEW_GIT_TAG=${{ steps.release-please.outputs.tag_name }}
+          make tag-modules NEW_GIT_TAG=${{ steps.release-please.outputs.tag_name }} SIGN_COMMITS=false
           git push origin --tags
 
       - name: Run release workflow
