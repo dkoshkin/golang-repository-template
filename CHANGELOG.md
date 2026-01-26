@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.4 (2026-01-26)
+
+<!-- Release notes generated using configuration in .github/release.yaml at main -->
+
+
+
+**Full Changelog**: https://github.com/dkoshkin/golang-repository-template/compare/v0.2.3...v0.2.4
+
 ## 0.2.3 (2026-01-19)
 
 <!-- Release notes generated using configuration in .github/release.yaml at main -->
