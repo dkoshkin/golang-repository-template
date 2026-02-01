@@ -11,7 +11,7 @@
     "git":                                  "latest",
     "gnumake":                              "latest",
     "gnused":                               "latest",
-    "go":                                   "latest",
+    "path:./hack/flakes#go":                "",
     "gojq":                                 "latest",
     "golangci-lint":                        "latest",
     "gomplate":                             "latest",
