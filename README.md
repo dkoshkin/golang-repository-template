@@ -30,7 +30,7 @@ Use this repo as the template for a new repository by making the following chang
 1. Add an initial version for release-please.
 
    ```bash
-   git commit --allow-empty -m "chore: release 0.0.1" -m "Release-As: 0.0.1 && git push --tags
+   git commit --allow-empty -m "chore: release 0.0.1" -m "Release-As: 0.0.1" && git push origin main
    ```
 
 2. Search and replacing all instances of `golang-repository-template` and `Golang Repository Template`
