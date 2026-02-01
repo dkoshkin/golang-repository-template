@@ -8,7 +8,10 @@
 
   outputs = inputs @ { self, nixpkgs, flake-utils }:
     flake-utils.lib.eachDefaultSystem (system:
-      with nixpkgs.legacyPackages.${system}; rec {
+      let
+        pkgs = nixpkgs.legacyPackages.${system};
+      in
+      with pkgs; rec {
         packages = rec {
           goprintconst = buildGo124Module rec {
             name = "goprintconst";
@@ -75,6 +78,16 @@
               helm-schema
             ];
           };
+
+          go = pkgs.go.overrideAttrs (oldAttrs: rec {
+            version = "1.25.6";
+            src = fetchurl {
+              url = "https://go.dev/dl/go${version}.src.tar.gz";
+              hash = "sha256-WMv3ceRNdt5vVtGeM7d9dFoeSJNAkih15GWFuXXCsFk=";
+            };
+            # Skip patches that don't apply to this version
+            patches = [ ];
+          });
         };
 
         formatter = alejandra;
