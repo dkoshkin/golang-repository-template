@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.2.4 (2026-02-02)
+
+<!-- Release notes generated using configuration in .github/release.yaml at main -->
+
+## What's Changed
+### Other Changes
+* build: update Go to 1.25.6 by @dkoshkin in https://github.com/dkoshkin/golang-repository-template/pull/85
+* docs: fix command to push 0.0.1 commit by @dkoshkin in https://github.com/dkoshkin/golang-repository-template/pull/86
+* build: run e2e in parallel with build by @dkoshkin in https://github.com/dkoshkin/golang-repository-template/pull/88
+* build: update workflow permissions by @dkoshkin in https://github.com/dkoshkin/golang-repository-template/pull/87
+* docs: more setup instructions in README.md by @dkoshkin in https://github.com/dkoshkin/golang-repository-template/pull/90
+* build: only build Linux images during snapshots by @dkoshkin in https://github.com/dkoshkin/golang-repository-template/pull/91
+* build: stop shadowing go in flake by @dkoshkin in https://github.com/dkoshkin/golang-repository-template/pull/92
+* fix: revert pre-commit devbox update by @dkoshkin in https://github.com/dkoshkin/golang-repository-template/pull/93
+
+
+**Full Changelog**: https://github.com/dkoshkin/golang-repository-template/compare/v0.2.3...v0.2.4
+
 ## 0.2.3 (2026-01-19)
 
 <!-- Release notes generated using configuration in .github/release.yaml at main -->
