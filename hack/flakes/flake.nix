@@ -8,10 +8,7 @@
 
   outputs = inputs @ { self, nixpkgs, flake-utils }:
     flake-utils.lib.eachDefaultSystem (system:
-      let
-        pkgs = nixpkgs.legacyPackages.${system};
-      in
-      with pkgs; rec {
+      with nixpkgs.legacyPackages.${system}; rec {
         packages = rec {
           goprintconst = buildGo124Module rec {
             name = "goprintconst";
@@ -79,7 +76,7 @@
             ];
           };
 
-          go = pkgs.go.overrideAttrs (oldAttrs: rec {
+          go_1_25_6 = go.overrideAttrs (oldAttrs: rec {
             version = "1.25.6";
             src = fetchurl {
               url = "https://go.dev/dl/go${version}.src.tar.gz";
