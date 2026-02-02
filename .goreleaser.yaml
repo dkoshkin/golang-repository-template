@@ -52,7 +52,7 @@ builds:
     hooks:
       post:
         - |
-          sh -ec 'if [ {{ .IsSnapshot }} == true ] && [ {{ .Runtime.Goarch }} == {{ .Arch }} ]; then
+          sh -ec 'if [ {{ .IsSnapshot }} == true ] && [ {{ .Os }} == linux ] && [ {{ .Runtime.Goarch }} == {{ .Arch }} ]; then
             env SOURCE_DATE_EPOCH=$(date +%s) \
                 KO_DATA_DATE_EPOCH=$(date +%s) \
                 KO_DOCKER_REPO=ko.local/{{ .ProjectName }} \
