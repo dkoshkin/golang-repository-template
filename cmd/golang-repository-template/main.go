@@ -29,7 +29,7 @@ var (
 func init() {
 	utilruntime.Must(clientgoscheme.AddToScheme(scheme))
 
-	// Register the API schemas for the project.
+	// TODO: Register the API schemas for the project.
 }
 
 func main() {
@@ -171,7 +171,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	// Setup Reconciler(s) here.
+	// TODO: Setup Reconciler(s) here.
 
 	if err := mgr.AddHealthzCheck("healthz", healthz.Ping); err != nil {
 		setupLog.Error(err, "unable to set up health check")
