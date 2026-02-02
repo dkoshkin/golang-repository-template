@@ -33,11 +33,13 @@ Use this repo as the template for a new repository by making the following chang
    git commit --allow-empty -m "chore: release 0.0.1" -m "Release-As: 0.0.1" && git push origin main
    ```
 
-2. Search and replacing all instances of `golang-repository-template` and `Golang Repository Template`
+2. Search and replace all instances of `golang-repository-template` and `Golang Repository Template`
    with your project's name.
-3. Rename the folder in `cmd/` and `charts/` with your project's name.
-4. Update the files in `hack/license` with your details.
-5. Clear out the release-please version.
+3. Search and replace all instances of `github.com/dkoshkin` with your Github username.
+4. Search and replace all instances of `com.dimitrikoshkin` with your company domain.
+5. Rename the folder in `cmd/` and `charts/` with your project's name.
+6. Update the files in `hack/license` with your details.
+7. Clear out the release-please version.
 
    ```bash
    echo "{}" > .release-please-manifest.json
