@@ -5,7 +5,7 @@ module github.com/dkoshkin/golang-repository-template
 
 go 1.25.0
 
-toolchain go1.25.5
+toolchain go1.25.8
 
 replace github.com/dkoshkin/golang-repository-template/api => ./api
 
