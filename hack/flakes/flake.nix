@@ -76,11 +76,11 @@
             ];
           };
 
-          go_1_25_7 = go.overrideAttrs (oldAttrs: rec {
-            version = "1.25.7";
+          go_1_25_8 = go.overrideAttrs (oldAttrs: rec {
+            version = "1.25.8";
             src = fetchurl {
               url = "https://go.dev/dl/go${version}.src.tar.gz";
-              hash = "sha256-F48oMoICdLQ+F30y8Go+uwEp5CfdIKXkyI3ywXY88Qo=";
+              hash = "sha256-6YjUokRqx/4/baoImljpk2pSo4E1Wt7ByJgyMKjWxZ4=";
             };
             # Skip patches that don't apply to this version
             patches = [ ];
