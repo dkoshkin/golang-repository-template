@@ -30,7 +30,7 @@ jobs:
           token: ${{ secrets.DEPENDENCY_AUTOMATION_TOKEN }}
 
       - name: Install devbox
-        uses: jetify-com/devbox-install-action@v0.14.0
+        uses: jetify-com/devbox-install-action@v0.15.0
         with:
           enable-cache: true
 
