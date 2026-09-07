@@ -79,13 +79,13 @@
           go_1_26_7 =
             let
               version = "1.26.7";
-              # Go 1.26 requires Go 1.24.6 or later to bootstrap from source (https://go.dev/doc/go1.26),
-              # but the nixpkgs revision pinned in flake.lock only ships a Go 1.22 bootstrap toolchain.
+              # New Go releases need a newer bootstrap toolchain than the nixpkgs revision pinned in flake.lock ships,
+              # see the "Bootstrap" section of the Go release notes.
               # Self-bootstrap using the official prebuilt binary of the exact version we're building,
-              # by setting GOROOT_BOOTSTRAP.
-              # To refresh archive hashes, run:
-              # nix-prefetch-url --type sha256 "https://go.dev/dl/<archive>.tar.gz" | xargs nix hash to-sri --type sha256
-              # or intentionally build once and copy the 'got: sha256-...' value from the Nix mismatch error.
+              # by setting GOROOT_BOOTSTRAP. Do not edit the version or hashes by hand:
+              # run `make go-update-version` (optionally with GO_MINOR=X.Y or GO_VERSION=X.Y.Z),
+              # which fetches them from go.dev and also updates devbox.json and all go.mod files.
+              # The hash of each archive must stay on the line directly after the line naming the archive.
               bootstrapArchive = {
                 x86_64-linux = {
                   file = "go${version}.linux-amd64.tar.gz";

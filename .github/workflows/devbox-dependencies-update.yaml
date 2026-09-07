@@ -5,6 +5,12 @@ name: devbox-dependencies-update
 
 on:
   workflow_dispatch:
+    inputs:
+      go-minor:
+        description: "Go minor version to track, e.g. 1.27. Defaults to the currently pinned minor."
+        required: false
+        type: string
+        default: ""
   schedule:
     - cron: "0 0 * * 1"
 
@@ -37,13 +43,22 @@ jobs:
       - name: Run devbox update
         run: devbox update
 
-      - name: Get number of versions changed
-        id: devbox-versions-changed
+      - name: Update Go version
+        env:
+          GO_MINOR: ${{ inputs.go-minor }}
+        run: devbox run -- make go-update-version GO_MINOR="${GO_MINOR}"
+
+      - name: Detect changes
+        id: changes
         run: |
-          echo "number_changed=$(git diff --unified=0 devbox.lock | grep -c \"version\":)" >>"${GITHUB_OUTPUT}"
+          if [[ -n "$(git status --porcelain)" ]]; then
+            echo "changed=true" >>"${GITHUB_OUTPUT}"
+          else
+            echo "changed=false" >>"${GITHUB_OUTPUT}"
+          fi
 
       - name: Configure SSH signing
-        if: steps.devbox-versions-changed.outputs.number_changed > 0
+        if: steps.changes.outputs.changed == 'true'
         env:
           SSH_SIGNING_PRIVATE_KEY: ${{ secrets.GIT_SSH_SIGNING_PRIVATE_KEY }}
         run: |
@@ -57,13 +72,11 @@ jobs:
           git config user.email "${{ secrets.GIT_USER_EMAIL }}"
 
       - name: Commit changes
-        if: steps.devbox-versions-changed.outputs.number_changed > 0
+        if: steps.changes.outputs.changed == 'true'
         id: commit-changes
-        env:
-          FILE_TO_COMMIT: devbox.lock
         run: |
           git push origin ":${DESTINATION_BRANCH}" || true
-          git add "${FILE_TO_COMMIT}"
+          git add -A
 
           TODAY="$( date -u '+%Y-%m-%d' )"
           MESSAGE="build(${{ github.ref_name }}): Latest devbox update (${TODAY})"
@@ -74,7 +87,7 @@ jobs:
           echo "message=${MESSAGE}" >>"${GITHUB_OUTPUT}"
 
       - name: Create PR
-        if: steps.devbox-versions-changed.outputs.number_changed > 0
+        if: steps.changes.outputs.changed == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.DEPENDENCY_AUTOMATION_TOKEN }}
         run: |
