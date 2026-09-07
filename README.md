@@ -19,7 +19,9 @@ which uses the Kubebuilder Helm plugin to keep your chart in sync with generated
 
 ## Prerequisites
 
-...
+- [Devbox][Devbox] (creates the toolchain via Nix)
+- [direnv][direnv] (loads the Devbox environment when you enter the repo)
+- Docker (required for Kind, Helm chart install, and e2e tests)
 
 ## Usage Instructions
 
@@ -76,10 +78,12 @@ To remove, make the following changes:
    - build / build
    - lint / gha
    - lint / go (.)
+   - lint / go (api)
    - lint / helm
    - pre-commit / pre-commit
    - unit-tests / unit-tests
    - govulncheck / govulncheck (.)
+   - govulncheck / govulncheck (api)
    - codeql / analyze (go)
    - e2e-tests / e2e-tests
 5. Go to `Settings` > `Pages` > `Branch` and select `main` and `/docs` as the Source.
@@ -106,7 +110,10 @@ Tip: to see all available make targets with descriptions, simply run `make`.
 make test
 ```
 
-This repository is configured with [Codecov][Codecov] but can be removed by modifying `.github/workflows/unit-tests.yml`.
+`make test` downloads Kubernetes envtest assets (`setup-envtest`,
+pinned by `ENVTEST_VERSION` in the Makefile) and runs unit/integration tests with race detection and coverage.
+
+This repository is configured with [Codecov][Codecov] but can be removed by modifying `.github/workflows/unit-tests.yaml`.
 
 ### Build
 
