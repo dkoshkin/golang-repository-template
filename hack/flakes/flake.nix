@@ -76,15 +76,59 @@
             ];
           };
 
-          go_1_25_8 = go.overrideAttrs (oldAttrs: rec {
-            version = "1.25.8";
-            src = fetchurl {
-              url = "https://go.dev/dl/go${version}.src.tar.gz";
-              hash = "sha256-6YjUokRqx/4/baoImljpk2pSo4E1Wt7ByJgyMKjWxZ4=";
-            };
-            # Skip patches that don't apply to this version
-            patches = [ ];
-          });
+          go_1_26_7 =
+            let
+              version = "1.26.7";
+              # Go 1.26 requires Go 1.24.6 or later to bootstrap from source (https://go.dev/doc/go1.26),
+              # but the nixpkgs revision pinned in flake.lock only ships a Go 1.22 bootstrap toolchain.
+              # Self-bootstrap using the official prebuilt binary of the exact version we're building,
+              # by setting GOROOT_BOOTSTRAP.
+              # To refresh archive hashes, run:
+              # nix-prefetch-url --type sha256 "https://go.dev/dl/<archive>.tar.gz" | xargs nix hash to-sri --type sha256
+              # or intentionally build once and copy the 'got: sha256-...' value from the Nix mismatch error.
+              bootstrapArchive = {
+                x86_64-linux = {
+                  file = "go${version}.linux-amd64.tar.gz";
+                  sha256 = "sha256-/7X43hDGJVDf3atms2tXAwch4KRKMhjp4Rgde1nxIco=";
+                };
+                aarch64-linux = {
+                  file = "go${version}.linux-arm64.tar.gz";
+                  sha256 = "sha256-Wk7IgzedUe6c4QQNXof4014gOHV03YyUf+sB6rw8Gzc=";
+                };
+                x86_64-darwin = {
+                  file = "go${version}.darwin-amd64.tar.gz";
+                  sha256 = "sha256-kuizS/88iasWQExZVmmsjLAEzC9nbcvR9bh6a43vO0c=";
+                };
+                aarch64-darwin = {
+                  file = "go${version}.darwin-arm64.tar.gz";
+                  sha256 = "sha256-AgoegiSBG+dRY+kgvHfgkmoTkKau6hm9zyP3S510n20=";
+                };
+              }.${system};
+              goBootstrap = stdenv.mkDerivation {
+                pname = "go-bootstrap";
+                inherit version;
+                src = fetchurl {
+                  url = "https://go.dev/dl/${bootstrapArchive.file}";
+                  sha256 = bootstrapArchive.sha256;
+                };
+                dontConfigure = true;
+                dontBuild = true;
+                installPhase = ''
+                  mkdir -p $out
+                  cp -a . $out
+                '';
+              };
+            in
+            go.overrideAttrs (oldAttrs: {
+              inherit version;
+              src = fetchurl {
+                url = "https://go.dev/dl/go${version}.src.tar.gz";
+                hash = "sha256-DtJOrHVRBQhbif6cq8J0K5GgrXuUtZ0602SRjryJVq0=";
+              };
+              # Skip patches that don't apply to this version
+              patches = [ ];
+              GOROOT_BOOTSTRAP = "${goBootstrap}";
+            });
         };
 
         formatter = alejandra;
