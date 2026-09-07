@@ -43,7 +43,7 @@ repos:
     name: check-devbox-lock
     entry: devbox install
     language: system
-    files: "^devbox.(yaml|lock)$"
+    files: "^(devbox\\.(json|lock)|hack/flakes/flake\\.nix)$"
     pass_filenames: false
 - repo: https://github.com/tekwizely/pre-commit-golang
   rev: v1.0.0-rc.1
