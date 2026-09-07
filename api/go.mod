@@ -3,4 +3,6 @@
 
 module github.com/dkoshkin/golang-repository-template/api
 
-go 1.25.0
+go 1.26.0
+
+toolchain go1.26.7

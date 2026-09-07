@@ -5,18 +5,7 @@
         "certManager": {
             "type": "object",
             "properties": {
-                "enable": {
-                    "type": "boolean"
-                }
-            }
-        },
-        "crd": {
-            "type": "object",
-            "properties": {
-                "enable": {
-                    "type": "boolean"
-                },
-                "keep": {
+                "enabled": {
                     "type": "boolean"
                 }
             }
@@ -24,14 +13,17 @@
         "manager": {
             "type": "object",
             "properties": {
+                "affinity": {
+                    "type": "object"
+                },
                 "args": {
                     "type": "array",
                     "items": {
                         "type": "string"
                     }
                 },
-                "env": {
-                    "type": "array"
+                "enabled": {
+                    "type": "boolean"
                 },
                 "image": {
                     "type": "object",
@@ -41,11 +33,11 @@
                         },
                         "repository": {
                             "type": "string"
-                        },
-                        "tag": {
-                            "type": "string"
                         }
                     }
+                },
+                "nodeSelector": {
+                    "type": "object"
                 },
                 "podSecurityContext": {
                     "type": "object",
@@ -114,32 +106,65 @@
                             "type": "boolean"
                         }
                     }
+                },
+                "terminationGracePeriodSeconds": {
+                    "type": "integer"
+                },
+                "tolerations": {
+                    "type": "array"
                 }
             }
         },
         "metrics": {
             "type": "object",
             "properties": {
-                "enable": {
+                "enabled": {
                     "type": "boolean"
                 },
                 "port": {
                     "type": "integer"
+                },
+                "secure": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "networkPolicy": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
                 }
             }
         },
         "prometheus": {
             "type": "object",
             "properties": {
-                "enable": {
+                "enabled": {
                     "type": "boolean"
                 }
             }
         },
-        "rbacHelpers": {
+        "rbac": {
             "type": "object",
             "properties": {
-                "enable": {
+                "helpers": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "namespaced": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "serviceAccount": {
+            "type": "object",
+            "properties": {
+                "enabled": {
                     "type": "boolean"
                 }
             }

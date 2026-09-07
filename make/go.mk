@@ -14,6 +14,7 @@ ALL_GO_SUBMODULES := $(shell find -mindepth 2 -maxdepth 2 -name go.mod -printf '
 GO_SUBMODULES_NO_DOCS := $(filter-out $(addsuffix /go.mod,docs),$(ALL_GO_SUBMODULES))
 
 define go_test
+	source <(setup-envtest use -p env $(ENVTEST_VERSION)) && \
 	gotestsum \
 		--jsonfile test.json \
 		--junitfile junit-report.xml \
@@ -79,11 +80,11 @@ ARTIFACTS ?= ${REPO_ROOT}/_artifacts
 .PHONY: e2e-test
 e2e-test: ## Runs e2e tests
 e2e-test: dev.run-on-kind
+e2e-test: export KUBECONFIG := $(KIND_KUBECONFIG)
 ifneq ($(wildcard test/e2e/*),)
 e2e-test:
 	$(info $(M) $(if $(filter $(E2E_DRYRUN), true),dry-,)running e2e tests$(if $(E2E_LABEL), labelled "$(E2E_LABEL)")$(if $(E2E_FOCUS), matching "$(E2E_FOCUS)"))
-	  env KUBECONFIG=$(KUBECONFIG) \
-      ginkgo run \
+	  ginkgo run \
 	    --r \
 	    --show-node-events \
 	    --trace \

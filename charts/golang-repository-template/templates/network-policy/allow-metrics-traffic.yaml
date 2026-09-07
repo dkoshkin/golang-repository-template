@@ -1,0 +1,28 @@
+# Copyright 2026 Dimitri Koshkin. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+{{- if .Values.networkPolicy.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/name: {{ include "golang-repository-template.name" . }}
+  name: {{ include "golang-repository-template.resourceName" (dict "suffix" "allow-metrics-traffic" "context" $) }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  podSelector:
+    matchLabels:
+      control-plane: controller-manager
+      app.kubernetes.io/name: {{ include "golang-repository-template.name" . }}
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            metrics: enabled
+      ports:
+        - port: {{ .Values.metrics.port }}
+          protocol: TCP
+{{- end }}

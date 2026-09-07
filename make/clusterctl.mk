@@ -1,9 +1,9 @@
 # Copyright 2026 Dimitri Koshkin. All rights reserved.
 # SPDX-License-Identifier: Apache-2.0
 
-export CAPI_VERSION := v1.12.1
+export CAPI_VERSION ?= $(or $(shell GOWORK=off go list -m -f '{{.Version}}' sigs.k8s.io/cluster-api 2>/dev/null),v1.12.1)
 export CAPD_VERSION := $(CAPI_VERSION)
-export CAAPH_VERSION := v0.5.3
+export CAAPH_VERSION ?= v0.6.2
 
 .PHONY: clusterctl.init
 clusterctl.init:

@@ -11,6 +11,7 @@ updates:
   - package-ecosystem: "gomod"
     directories:
       - "/"
+      - "/api"
       - "/hack/tools"
     schedule:
       interval: "weekly"

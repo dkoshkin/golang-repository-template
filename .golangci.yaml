@@ -60,6 +60,12 @@ linters:
         - github.com/onsi/gomega
     testifylint:
       enable-all: true
+  exclusions:
+    rules:
+      # kubebuilder marker annotations must be on a single line and often exceed 120 chars.
+      - linters:
+          - lll
+        source: "^\\s*// \\+kubebuilder:"
 formatters:
   enable:
     - gci
