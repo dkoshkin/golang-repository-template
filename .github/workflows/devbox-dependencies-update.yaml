@@ -24,13 +24,13 @@ jobs:
       DESTINATION_BRANCH: scheduled-devbox-update-${{ github.ref_name }}
     steps:
       - name: Check out code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           # Use a PAT so PRs/commits trigger other workflows
           token: ${{ secrets.DEPENDENCY_AUTOMATION_TOKEN }}
 
       - name: Install devbox
-        uses: jetify-com/devbox-install-action@v0.14.0
+        uses: jetify-com/devbox-install-action@v0.15.0
         with:
           enable-cache: true
 

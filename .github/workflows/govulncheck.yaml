@@ -18,14 +18,14 @@ jobs:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        module: [.]
+        module: [., api]
       fail-fast: false
     steps:
       - name: Check out code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Install devbox
-        uses: jetify-com/devbox-install-action@v0.14.0
+        uses: jetify-com/devbox-install-action@v0.15.0
         with:
           enable-cache: true
 

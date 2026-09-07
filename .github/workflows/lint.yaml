@@ -20,14 +20,14 @@ jobs:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        module: [.]
+        module: [., api]
       fail-fast: false
     steps:
       - name: Check out code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Install devbox
-        uses: jetify-com/devbox-install-action@v0.14.0
+        uses: jetify-com/devbox-install-action@v0.15.0
         with:
           enable-cache: true
 
@@ -42,6 +42,7 @@ jobs:
         with:
           fail_level: error
           reporter: github-pr-review
+          filter_mode: file
           golangci_lint_version: v${{ steps.versions.outputs.golangci-lint }}
           go_version: v${{ steps.versions.outputs.golang }}
           workdir: ${{ matrix.module }}
@@ -51,7 +52,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Check out code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: actionlint
         uses: reviewdog/action-actionlint@v1
@@ -66,12 +67,12 @@ jobs:
       KIND_KUBECONFIG: ct-kind-kubeconfig
     steps:
       - name: Check out code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
       - name: Install devbox
-        uses: jetify-com/devbox-install-action@v0.14.0
+        uses: jetify-com/devbox-install-action@v0.15.0
         with:
           enable-cache: true
 
