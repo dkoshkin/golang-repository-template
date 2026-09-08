@@ -224,3 +224,35 @@ ifndef GO_TOOLCHAIN_VERSION
 	$(error GO_TOOLCHAIN_VERSION is not set: please set GO_TOOLCHAIN_VERSION to the desired version, e.g. go1.22.5)
 endif
 	$(if $(filter-out root .,$*),cd $* && )go mod edit -toolchain=$(GO_TOOLCHAIN_VERSION)
+
+# Modules whose go and toolchain directives are kept in sync by go-mod-edit-version.
+# hack/tools is below the depth searched by ALL_GO_SUBMODULES, so it is appended explicitly.
+GO_MOD_EDIT_VERSION_SUBMODULES := $(GO_SUBMODULES_NO_DOCS) $(wildcard hack/tools/go.mod)
+
+.PHONY: go-mod-edit-version
+go-mod-edit-version: ## Edits the go.mod file of all modules in repository to use the go and toolchain versions
+ifneq ($(wildcard $(REPO_ROOT)/go.mod),)
+go-mod-edit-version: go-mod-edit-version/root
+endif
+ifneq ($(words $(GO_MOD_EDIT_VERSION_SUBMODULES)),0)
+go-mod-edit-version: $(addprefix go-mod-edit-version/,$(GO_MOD_EDIT_VERSION_SUBMODULES:/go.mod=))
+endif
+
+# Uses / rather than . as the module separator: make strips directory prefixes before matching
+# a pattern without a slash, so target.% can never match a module path such as hack/tools.
+.PHONY: go-mod-edit-version/%
+go-mod-edit-version/%: ## Edits the go.mod file of a specific module in repository to use the go and toolchain versions
+go-mod-edit-version/%: ; $(info $(M) setting go version for $* module)
+ifndef GO_LANGUAGE_VERSION
+	$(error GO_LANGUAGE_VERSION is not set: please set GO_LANGUAGE_VERSION to the desired go directive, e.g. 1.26.0)
+endif
+ifndef GO_TOOLCHAIN_VERSION
+	$(error GO_TOOLCHAIN_VERSION is not set: please set GO_TOOLCHAIN_VERSION to the desired version, e.g. go1.26.7)
+endif
+	$(if $(filter-out root .,$*),cd $* && )go mod edit -go=$(GO_LANGUAGE_VERSION) -toolchain=$(GO_TOOLCHAIN_VERSION)
+
+.PHONY: go-update-version
+go-update-version: ## Updates Go to the latest patch of GO_MINOR (default: currently pinned minor) or exact GO_VERSION in flake.nix, devbox.json and all go.mod files, then refreshes devbox.lock
+go-update-version: ; $(info $(M) updating Go version$(if $(GO_VERSION), to $(GO_VERSION),$(if $(GO_MINOR), to latest $(GO_MINOR))))
+	$(REPO_ROOT)/hack/go/update-go-version.sh $(if $(GO_MINOR),--minor $(GO_MINOR)) $(if $(GO_VERSION),--version $(GO_VERSION))
+	devbox install
