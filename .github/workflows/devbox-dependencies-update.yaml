@@ -91,8 +91,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.DEPENDENCY_AUTOMATION_TOKEN }}
         run: |
+          RUN_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
           pr_url="$(gh pr create --base "${{ github.ref_name }}" --head "${DESTINATION_BRANCH}" \
             --title "${{ steps.commit-changes.outputs.message }}" \
-            --body "This PR was automatically created by the scheduled devbox update workflow." \
+            --body "This PR was automatically created by the scheduled devbox update workflow: ${RUN_URL}" \
             --label ignore-for-release)"
           gh pr merge --auto --squash "${pr_url}"
