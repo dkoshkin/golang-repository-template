@@ -5,4 +5,4 @@ module github.com/dkoshkin/golang-repository-template/hack/tools
 
 go 1.26.0
 
-toolchain go1.26.7
+toolchain go1.26.8
