@@ -462,8 +462,8 @@
       }
     },
     "github:NixOS/nixpkgs/nixpkgs-unstable": {
-      "last_modified": "2026-09-08T02:20:54Z",
-      "resolved": "github:NixOS/nixpkgs/e9b9cbecbf6c25ca26c150d78570e6332694a129?lastModified=1788834054&narHash=sha256-9dzTcXMtlknZyT47Vv1PnpGgN7UYA8WxxqyxsKdvYbo%3D"
+      "last_modified": "2026-09-13T01:58:51Z",
+      "resolved": "github:NixOS/nixpkgs/02f5696b0e6097e589076d886b317b83ff0437d7?lastModified=1789264731&narHash=sha256-llGJbC0CcU8DfROr6mZjRJgMLQd%2FSKwfpzxJH%2F2lHO4%3D"
     },
     "gnumake@latest": {
       "last_modified": "2026-08-27T07:16:00Z",
@@ -1242,17 +1242,21 @@
         }
       }
     },
+    "path:./hack/flakes#go_1_26_8": {
+      "last_modified": "2026-09-14T03:13:35Z",
+      "resolved": "path:/home/runner/work/golang-repository-template/golang-repository-template/hack/flakes?lastModified=1789355615&narHash=sha256-FaSvtpJiUBZT5R5SkgObXAGsSod5mDN5g1ASgJM3TrI%3D#go_1_26_8"
+    },
     "path:./hack/flakes#goprintconst": {
-      "last_modified": "2026-09-08T13:39:10Z",
-      "resolved": "path:/home/runner/work/golang-repository-template/golang-repository-template/hack/flakes?lastModified=1788874750&narHash=sha256-w2ZIFubQRY9f0etag8dOSuBXKg5Fl4MWtrT%2F8N61oLI%3D#goprintconst"
+      "last_modified": "2026-09-14T03:13:35Z",
+      "resolved": "path:/home/runner/work/golang-repository-template/golang-repository-template/hack/flakes?lastModified=1789355615&narHash=sha256-FaSvtpJiUBZT5R5SkgObXAGsSod5mDN5g1ASgJM3TrI%3D#goprintconst"
     },
     "path:./hack/flakes#helm-with-plugins": {
-      "last_modified": "2026-09-08T13:39:10Z",
-      "resolved": "path:/home/runner/work/golang-repository-template/golang-repository-template/hack/flakes?lastModified=1788874750&narHash=sha256-w2ZIFubQRY9f0etag8dOSuBXKg5Fl4MWtrT%2F8N61oLI%3D#helm-with-plugins"
+      "last_modified": "2026-09-14T03:13:35Z",
+      "resolved": "path:/home/runner/work/golang-repository-template/golang-repository-template/hack/flakes?lastModified=1789355615&narHash=sha256-FaSvtpJiUBZT5R5SkgObXAGsSod5mDN5g1ASgJM3TrI%3D#helm-with-plugins"
     },
     "path:./hack/flakes#release-please": {
-      "last_modified": "2026-09-08T13:39:10Z",
-      "resolved": "path:/home/runner/work/golang-repository-template/golang-repository-template/hack/flakes?lastModified=1788874750&narHash=sha256-w2ZIFubQRY9f0etag8dOSuBXKg5Fl4MWtrT%2F8N61oLI%3D#release-please"
+      "last_modified": "2026-09-14T03:13:35Z",
+      "resolved": "path:/home/runner/work/golang-repository-template/golang-repository-template/hack/flakes?lastModified=1789355615&narHash=sha256-FaSvtpJiUBZT5R5SkgObXAGsSod5mDN5g1ASgJM3TrI%3D#release-please"
     },
     "pre-commit@latest": {
       "last_modified": "2026-08-27T07:16:00Z",
