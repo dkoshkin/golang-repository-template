@@ -76,9 +76,9 @@
             ];
           };
 
-          go_1_26_8 =
+          go_1_26_10 =
             let
-              version = "1.26.8";
+              version = "1.26.10";
               # New Go releases need a newer bootstrap toolchain than the nixpkgs revision pinned in flake.lock ships,
               # see the "Bootstrap" section of the Go release notes.
               # Self-bootstrap using the official prebuilt binary of the exact version we're building,
@@ -89,19 +89,19 @@
               bootstrapArchive = {
                 x86_64-linux = {
                   file = "go${version}.linux-amd64.tar.gz";
-                  sha256 = "sha256-0PdDsz6NiUXmsfQy7dFXhccFBxIdbipyOyEoXt34tXs=";
+                  sha256 = "sha256-zP566CLSwvQfT+fJVhmZZ6Tawi0O4NKyv9tECqs7IMU=";
                 };
                 aarch64-linux = {
                   file = "go${version}.linux-arm64.tar.gz";
-                  sha256 = "sha256-IR/87Z3LljOlXqxjZIFuwN3ZUTiadA6I+oszN5cb3aA=";
+                  sha256 = "sha256-P0InznsgalE+eU8Tk620c6B7RulNGL0V0caEu7cxl5c=";
                 };
                 x86_64-darwin = {
                   file = "go${version}.darwin-amd64.tar.gz";
-                  sha256 = "sha256-GGvgFBBaplQrdn0sbtXMoQoCFL3/gJ7xckAiqMeJQVA=";
+                  sha256 = "sha256-6CCreAwnOuSjQLedDzxDE7dO4CmqOHR5IUXUS59Pkdo=";
                 };
                 aarch64-darwin = {
                   file = "go${version}.darwin-arm64.tar.gz";
-                  sha256 = "sha256-oBKyW1cb0BOKA9zSU3XOuoZv5cqCL0JtLGak3lb9P0s=";
+                  sha256 = "sha256-C1GDSSKSraFw+bVhqDSGOAjdAu26WZ5K0OiYmTMAILM=";
                 };
               }.${system};
               goBootstrap = stdenv.mkDerivation {
@@ -123,7 +123,7 @@
               inherit version;
               src = fetchurl {
                 url = "https://go.dev/dl/go${version}.src.tar.gz";
-                hash = "sha256-Tjm5jkL5RvoFrIvFtxh335fb23y7Gnd7VBZnrXEX/S4=";
+                hash = "sha256-/WPog7ovK/ypPBZGsx6+9j4rHk0rMXyXidl2po2B828=";
               };
               # Skip patches that don't apply to this version
               patches = [ ];
