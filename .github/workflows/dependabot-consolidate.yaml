@@ -14,6 +14,9 @@ permissions:
   contents: write
   pull-requests: write
   issues: write
+  # Required by claude-code-action to exchange CLAUDE_CODE_OAUTH_TOKEN for a GitHub
+  # token via OIDC; without it the action fails with "Could not fetch an OIDC token."
+  id-token: write
 
 defaults:
   run:
