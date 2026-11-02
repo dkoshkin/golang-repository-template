@@ -1,0 +1,96 @@
+# Copyright 2026 Dimitri Koshkin. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+name: dependabot-consolidate
+
+on:
+  schedule:
+    # Friday 00:00 UTC, a few days after Dependabot's weekly run, so PRs have had
+    # time to accumulate and to surface any CVE advisories published mid-week.
+    - cron: "0 0 * * 5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  consolidate:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v7
+        with:
+          # Use a PAT so commits/PRs created by this job trigger other required workflows,
+          # and fetch full history so cherry-picking across Dependabot branches is possible.
+          token: ${{ secrets.DEPENDENCY_AUTOMATION_TOKEN }}
+          fetch-depth: 0
+
+      - name: Install devbox
+        uses: jetify-com/devbox-install-action@v0.15.0
+        with:
+          enable-cache: true
+
+      - name: Configure SSH signing
+        env:
+          SSH_SIGNING_PRIVATE_KEY: ${{ secrets.GIT_SSH_SIGNING_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "${SSH_SIGNING_PRIVATE_KEY}" > ~/.ssh/signing_key
+          chmod 600 ~/.ssh/signing_key
+          git config gpg.format ssh
+          git config user.signingkey "${HOME}/.ssh/signing_key"
+
+          git config user.name "${{ secrets.GIT_USER_NAME }}"
+          git config user.email "${{ secrets.GIT_USER_EMAIL }}"
+
+      - name: Consolidate blocked Dependabot PRs
+        uses: anthropics/claude-code-action@v1
+        env:
+          GH_TOKEN: ${{ secrets.DEPENDENCY_AUTOMATION_TOKEN }}
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_args: |
+            --allowedTools "Bash(git:*),Bash(gh:*),Bash(make:*),Bash(go:*),Bash(devbox:*),Read,Grep,Glob"
+            --max-turns 40
+          prompt: |
+            REPO: ${{ github.repository }}
+            DEFAULT BRANCH: ${{ github.event.repository.default_branch }}
+
+            List every currently open PR authored by dependabot[bot]
+            (`gh pr list --author app/dependabot --state open --json number,title,headRefName,url`).
+            For each one, check its required checks (`gh pr checks <number>`).
+
+            For each PR with a failing required check (especially govulncheck or build):
+            1. Check out its branch (`gh pr checkout <number>`) and reproduce the failure
+               locally via `devbox run -- make <failing-target>`.
+            2. Diagnose whether the fix is self-contained (e.g. `go get <module>@<fixed-version>
+               && go mod tidy` resolves it) or needs a coordinating change to the go/toolchain
+               directives in go.mod (`make go-mod-edit-version GO_LANGUAGE_VERSION=<x>
+               GO_TOOLCHAIN_VERSION=go<x>` — NOT `make go-update-version`, which also touches
+               devbox.json/flake.nix and is the separate Monday devbox-update job's job; do not
+               touch devbox.json or hack/flakes/flake.nix here).
+            3. Verify the fix with `devbox run -- make build govulncheck` (both root and api
+               modules) and `devbox run -- make unit-tests` before committing anything.
+
+            If only one open PR is affected by a given fix: commit the fix onto that PR's own
+            branch (`git commit`, `git push`) and move on — do not open a separate PR for a
+            single-PR fix.
+
+            If the SAME coordinating fix would need to be applied to more than one currently-open
+            Dependabot PR: instead, create one new branch off
+            ${{ github.event.repository.default_branch }} (e.g. `dependabot-consolidated-<date>`),
+            `git cherry-pick` each affected PR's commit(s) onto it, apply the shared coordinating
+            fix once, verify as above, push, and `gh pr create` summarizing which PRs it
+            supersedes and why they needed consolidating. Then on each superseded PR:
+            `gh pr comment <number> --body "Superseded by #<new-pr>: <short reason>"` followed by
+            `gh pr close <number>`.
+
+            Never touch, close, or comment on a PR that isn't authored by dependabot[bot]. If
+            every open Dependabot PR is already green, or none of the failures need a
+            coordinating fix, make no changes and exit without creating anything.
