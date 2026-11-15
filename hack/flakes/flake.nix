@@ -76,9 +76,9 @@
             ];
           };
 
-          go_1_26_10 =
+          go_1_26_11 =
             let
-              version = "1.26.10";
+              version = "1.26.11";
               # New Go releases need a newer bootstrap toolchain than the nixpkgs revision pinned in flake.lock ships,
               # see the "Bootstrap" section of the Go release notes.
               # Self-bootstrap using the official prebuilt binary of the exact version we're building,
@@ -89,19 +89,19 @@
               bootstrapArchive = {
                 x86_64-linux = {
                   file = "go${version}.linux-amd64.tar.gz";
-                  sha256 = "sha256-zP566CLSwvQfT+fJVhmZZ6Tawi0O4NKyv9tECqs7IMU=";
+                  sha256 = "sha256-mEn04E7jUwNxTjT7w6yKtE6j5EipWqGC+R47m3nHEOw=";
                 };
                 aarch64-linux = {
                   file = "go${version}.linux-arm64.tar.gz";
-                  sha256 = "sha256-P0InznsgalE+eU8Tk620c6B7RulNGL0V0caEu7cxl5c=";
+                  sha256 = "sha256-bC8ptFi1rdCDXxi3dvaciIGm2IQo8UhKbaVXVeYgdX4=";
                 };
                 x86_64-darwin = {
                   file = "go${version}.darwin-amd64.tar.gz";
-                  sha256 = "sha256-6CCreAwnOuSjQLedDzxDE7dO4CmqOHR5IUXUS59Pkdo=";
+                  sha256 = "sha256-OUuq6XEzLyvHg9biAErlcQFHm9Owbtggmj/jVw1M5Jg=";
                 };
                 aarch64-darwin = {
                   file = "go${version}.darwin-arm64.tar.gz";
-                  sha256 = "sha256-C1GDSSKSraFw+bVhqDSGOAjdAu26WZ5K0OiYmTMAILM=";
+                  sha256 = "sha256-46QuZ6eorPRQ662isHTHyoYwAMpRSQe3GFtF6PXN/1c=";
                 };
               }.${system};
               goBootstrap = stdenv.mkDerivation {
@@ -123,7 +123,7 @@
               inherit version;
               src = fetchurl {
                 url = "https://go.dev/dl/go${version}.src.tar.gz";
-                hash = "sha256-/WPog7ovK/ypPBZGsx6+9j4rHk0rMXyXidl2po2B828=";
+                hash = "sha256-1EEBsP8n7SpMda1GwXucdDWSCeLrLKfJ32y0/baOGWk=";
               };
               # Skip patches that don't apply to this version
               patches = [ ];
