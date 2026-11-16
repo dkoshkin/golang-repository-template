@@ -294,48 +294,48 @@
       }
     },
     "gh@latest": {
-      "last_modified": "2026-11-12T14:50:34Z",
-      "resolved": "github:NixOS/nixpkgs/2074cc672349f14240fb7ea90d509e0b643e9dd4#gh",
+      "last_modified": "2026-11-13T07:26:56Z",
+      "resolved": "github:NixOS/nixpkgs/e126e9e73c335158ff8279ac14d5f4afec153716#gh",
       "source": "devbox-search",
-      "version": "2.103.3",
+      "version": "2.104.0",
       "systems": {
         "aarch64-darwin": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/622xcszyv07vgm2acg7ziy6c52npbvh7-gh-2.103.3",
+              "path": "/nix/store/sljp8x9ki36vvmmdkj1jd6yggqx3vb2l-gh-2.104.0",
               "default": true
             }
           ],
-          "store_path": "/nix/store/622xcszyv07vgm2acg7ziy6c52npbvh7-gh-2.103.3"
+          "store_path": "/nix/store/sljp8x9ki36vvmmdkj1jd6yggqx3vb2l-gh-2.104.0"
         },
         "aarch64-linux": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/l7v137rv4d3hy0kk7v3c6yc1cnqrnhdx-gh-2.103.3",
+              "path": "/nix/store/0b8jjy2f5ia106wdixsclw7fx98x7fkf-gh-2.104.0",
               "default": true
             },
             {
               "name": "debug",
-              "path": "/nix/store/xpch9zilgv2blkd6lpmgsxpb8yi54qhv-gh-2.103.3-debug"
+              "path": "/nix/store/b9acm2giyf5wayhh0yg0kcrw7960la97-gh-2.104.0-debug"
             }
           ],
-          "store_path": "/nix/store/l7v137rv4d3hy0kk7v3c6yc1cnqrnhdx-gh-2.103.3"
+          "store_path": "/nix/store/0b8jjy2f5ia106wdixsclw7fx98x7fkf-gh-2.104.0"
         },
         "x86_64-linux": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/kp05nygc1wzpwrrdz9inn9pxvaiziwcq-gh-2.103.3",
+              "path": "/nix/store/8nkivkrdj9p478fq37g75nal1j5fdjpp-gh-2.104.0",
               "default": true
             },
             {
               "name": "debug",
-              "path": "/nix/store/hmihbldbbaziflbywbmxkbmvan23wwxk-gh-2.103.3-debug"
+              "path": "/nix/store/6p9c7pmaxq1nylrl9sf9wmrbgwlp8im5-gh-2.104.0-debug"
             }
           ],
-          "store_path": "/nix/store/kp05nygc1wzpwrrdz9inn9pxvaiziwcq-gh-2.103.3"
+          "store_path": "/nix/store/8nkivkrdj9p478fq37g75nal1j5fdjpp-gh-2.104.0"
         }
       }
     },
@@ -436,8 +436,8 @@
       }
     },
     "github:NixOS/nixpkgs/nixpkgs-unstable": {
-      "last_modified": "2026-11-12T14:50:34Z",
-      "resolved": "github:NixOS/nixpkgs/2074cc672349f14240fb7ea90d509e0b643e9dd4?lastModified=1794495034&narHash=sha256-E0hYoioqUtM2XmPPvYYpJgdADF5AW9oOoPSEiM9dTHQ%3D"
+      "last_modified": "2026-11-14T08:26:23Z",
+      "resolved": "github:NixOS/nixpkgs/5d2b81a7a3be3e2f832879028e4d60abbf58e9a0?lastModified=1794644783&narHash=sha256-3GnIGIy15bMduoS9RnWqKTmsJLWThla42UFtm0S7%2Bus%3D"
     },
     "gnumake@latest": {
       "last_modified": "2026-11-12T14:50:34Z",
@@ -1196,17 +1196,21 @@
         }
       }
     },
+    "path:./hack/flakes#go_1_26_11": {
+      "last_modified": "2026-11-16T04:38:02Z",
+      "resolved": "path:/home/runner/work/golang-repository-template/golang-repository-template/hack/flakes?lastModified=1794803882&narHash=sha256-I6AsDf1qKVCTaO5uH91VMZZT6P6QI3rjuXquQx9m70k%3D#go_1_26_11"
+    },
     "path:./hack/flakes#goprintconst": {
-      "last_modified": "2026-11-15T02:43:59Z",
-      "resolved": "path:/home/runner/work/golang-repository-template/golang-repository-template/hack/flakes?lastModified=1794710639&narHash=sha256-oAvi3fngaNUE6cbnyvKwfuPsKM4kV3Z58ZdkkCDEyzg%3D#goprintconst"
+      "last_modified": "2026-11-16T04:38:02Z",
+      "resolved": "path:/home/runner/work/golang-repository-template/golang-repository-template/hack/flakes?lastModified=1794803882&narHash=sha256-I6AsDf1qKVCTaO5uH91VMZZT6P6QI3rjuXquQx9m70k%3D#goprintconst"
     },
     "path:./hack/flakes#helm-with-plugins": {
-      "last_modified": "2026-11-15T02:43:59Z",
-      "resolved": "path:/home/runner/work/golang-repository-template/golang-repository-template/hack/flakes?lastModified=1794710639&narHash=sha256-oAvi3fngaNUE6cbnyvKwfuPsKM4kV3Z58ZdkkCDEyzg%3D#helm-with-plugins"
+      "last_modified": "2026-11-16T04:38:02Z",
+      "resolved": "path:/home/runner/work/golang-repository-template/golang-repository-template/hack/flakes?lastModified=1794803882&narHash=sha256-I6AsDf1qKVCTaO5uH91VMZZT6P6QI3rjuXquQx9m70k%3D#helm-with-plugins"
     },
     "path:./hack/flakes#release-please": {
-      "last_modified": "2026-11-15T02:43:59Z",
-      "resolved": "path:/home/runner/work/golang-repository-template/golang-repository-template/hack/flakes?lastModified=1794710639&narHash=sha256-oAvi3fngaNUE6cbnyvKwfuPsKM4kV3Z58ZdkkCDEyzg%3D#release-please"
+      "last_modified": "2026-11-16T04:38:02Z",
+      "resolved": "path:/home/runner/work/golang-repository-template/golang-repository-template/hack/flakes?lastModified=1794803882&narHash=sha256-I6AsDf1qKVCTaO5uH91VMZZT6P6QI3rjuXquQx9m70k%3D#release-please"
     },
     "pre-commit@latest": {
       "last_modified": "2026-11-12T14:50:34Z",
