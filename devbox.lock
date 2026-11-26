@@ -1196,10 +1196,6 @@
         }
       }
     },
-    "path:./hack/flakes#go_1_26_11": {
-      "last_modified": "2026-11-23T05:37:38Z",
-      "resolved": "path:/home/runner/work/golang-repository-template/golang-repository-template/hack/flakes?lastModified=1795412258&narHash=sha256-I6AsDf1qKVCTaO5uH91VMZZT6P6QI3rjuXquQx9m70k%3D#go_1_26_11"
-    },
     "path:./hack/flakes#goprintconst": {
       "last_modified": "2026-11-23T05:37:38Z",
       "resolved": "path:/home/runner/work/golang-repository-template/golang-repository-template/hack/flakes?lastModified=1795412258&narHash=sha256-I6AsDf1qKVCTaO5uH91VMZZT6P6QI3rjuXquQx9m70k%3D#goprintconst"
