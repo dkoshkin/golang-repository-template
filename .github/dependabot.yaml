@@ -16,6 +16,20 @@ updates:
     schedule:
       interval: "weekly"
     groups:
+      # Security updates are not covered by version-update groups, so without this group
+      # Dependabot opens one PR per alerted module. When a single advisory spans several
+      # modules (e.g. go.opentelemetry.io/otel/sdk and go.opentelemetry.io/otel/trace), each
+      # PR fails govulncheck because the other module is still vulnerable on its branch.
+      all-go-mod-security:
+        applies-to: security-updates
+        patterns: [ "*" ]
+      # controller-runtime and k8s.io modules must be upgraded in lockstep, so keep them
+      # together in a dedicated PR, separate from the catch-all group below.
+      # From Dependabot docs:
+      #    > If a dependency matches more than one rule, it's included in the first group that it matches.
+      k8s:
+        patterns: [ "sigs.k8s.io/controller-runtime", "k8s.io/*" ]
+        update-types: [ "minor", "patch" ]
       all-go-mod-patch-and-minor:
         patterns: [ "*" ]
         update-types: [ "patch", "minor" ]
