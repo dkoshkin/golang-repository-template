@@ -183,6 +183,56 @@
         }
       }
     },
+    "dart-sass@latest": {
+      "last_modified": "2026-11-22T18:15:35Z",
+      "resolved": "github:NixOS/nixpkgs/619c39f6eac5d1ed6b8f073a9414baf7034b2356#dart-sass",
+      "source": "devbox-search",
+      "version": "1.108.2",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/m8wfx9qh4i5r1jlmgr7x4xisr7zm2is6-dart-sass-1.108.2",
+              "default": true
+            },
+            {
+              "name": "pubcache",
+              "path": "/nix/store/snnv4xg9dgim9c8kpaw5094zbfcmabsv-dart-sass-1.108.2-pubcache"
+            }
+          ],
+          "store_path": "/nix/store/m8wfx9qh4i5r1jlmgr7x4xisr7zm2is6-dart-sass-1.108.2"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/3x2xyckrrlknynvlk60brvynbxqncz0m-dart-sass-1.108.2",
+              "default": true
+            },
+            {
+              "name": "pubcache",
+              "path": "/nix/store/9v7s52ail45m0gj3r8gdqry3fm1lmzhy-dart-sass-1.108.2-pubcache"
+            }
+          ],
+          "store_path": "/nix/store/3x2xyckrrlknynvlk60brvynbxqncz0m-dart-sass-1.108.2"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/w1crjm7r6sfyaa1ma1qdkziya1nj5q9a-dart-sass-1.108.2",
+              "default": true
+            },
+            {
+              "name": "pubcache",
+              "path": "/nix/store/dyvlq5l6293zaj8x8vqydlcrf4ilxngi-dart-sass-1.108.2-pubcache"
+            }
+          ],
+          "store_path": "/nix/store/w1crjm7r6sfyaa1ma1qdkziya1nj5q9a-dart-sass-1.108.2"
+        }
+      }
+    },
     "envsubst@latest": {
       "last_modified": "2026-11-12T14:50:34Z",
       "resolved": "github:NixOS/nixpkgs/2074cc672349f14240fb7ea90d509e0b643e9dd4#envsubst",
